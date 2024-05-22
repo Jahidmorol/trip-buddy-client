@@ -23,7 +23,9 @@ const NavBar = () => {
           </Link>
         </ul>
         <Link href={"/login"}>
-          <Button variant={"outline"}>Sign In / Register</Button>
+          <Button className="border " variant={"outline"}>
+            Sign In / Register
+          </Button>
         </Link>
       </div>
       {/* mobil device  */}
