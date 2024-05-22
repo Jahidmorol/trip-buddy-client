@@ -9,16 +9,22 @@ const NavBar = () => {
   const [isSidebarMenuOpen, setIsSidebarMenuOpen] = useState(false);
 
   return (
-    <div className="container flex justify-between items-center py-4">
+    <div className="container flex justify-between items-center py-6">
       <h1 className="text-3xl font-extrabold text-primaryColor cursor-pointer">
         Trip<span className="text-white">Buddy</span>
       </h1>
       <div className="md:flex items-center justify-between w-2/4 hidden">
         <ul className="flex items-center gap-4 ">
-          <li>Home</li>
-          <li>About</li>
+          <Link href={"/"}>
+            <li>Home</li>
+          </Link>
+          <Link href={"/about"}>
+            <li>About</li>
+          </Link>
         </ul>
-        <Button variant={"outline"}>Sign In / Register</Button>
+        <Link href={"/login"}>
+          <Button variant={"outline"}>Sign In / Register</Button>
+        </Link>
       </div>
       {/* mobil device  */}
       <FaBars

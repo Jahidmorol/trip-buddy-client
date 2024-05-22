@@ -75,6 +75,7 @@ const config = {
     },
     backgroundImage: {
       heroSection: "url(/hero.jpg)",
+      loginSection: "url(/login.jpg)",
     },
   },
   plugins: [require("tailwindcss-animate")],
