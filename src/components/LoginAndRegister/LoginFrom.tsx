@@ -77,7 +77,7 @@ const LoginComponent = () => {
           </div>
           <div className="border-[3px] border-black mt-6 mx-20 rounded-full" />
           <Button
-            className="w-full text-white my-6 border border-[#e44d36] hover:border-black py-5 text-lg"
+            className="w-full text-white my-6 font-semibold border border-[#e44d36] hover:border-black py-5 text-lg"
             variant={"outline"}
             type="submit"
           >

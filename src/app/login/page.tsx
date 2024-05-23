@@ -12,7 +12,7 @@ const LoginPage = () => {
     <div className="bg-loginSection bg-opacity-50">
       <div className="flex items-center justify-center py-16">
         <div className="border w-[500px] bg-white text-black p-6">
-          <h1 className="text-center text-4xl font-extrabold text-[#e44d36] cursor-pointer">
+          <h1 className="text-center text-4xl font-extrabold text-[#e44d36] cursor-pointer py-2">
             Trip<span className="text-black">Buddy</span>
           </h1>
           <div className="flex justify-between items-center text-white py-6">
