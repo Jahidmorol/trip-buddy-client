@@ -52,29 +52,29 @@ const AboutSection = () => {
           <div className="flex gap-4 items-start pt-6">
             <div className="border border-[#e8604c] w-[180px] mt-2"></div>
             <div>
-              <p className="leading-6 tracking-[1px]">
+              <p className="leading-6 tracking-[1px] text-gray-400">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. sed do
                 eiusmod tem por incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam
               </p>
-              <h2 className="font-semibold text-xl py-2">
+              <h2 className="font-semibold text-xl py-2 text-gray-400">
                 Speak to our Destination Experts at Direct Call +1 546 378 654
               </h2>
             </div>
           </div>
-          <p className="flex items-center gap-2 text-base pt-6">
+          <p className="flex items-center gap-2 text-base pt-6 text-gray-300">
             <span className="mb-1">
               <GoCheckCircle color="#e8604c" size={20} />
             </span>
             All places and activates are carefully picked by us.
           </p>
-          <p className="flex items-center gap-2 text-base py-1">
+          <p className="flex items-center gap-2 text-base py-1 text-gray-300">
             <span className="mb-1">
               <GoCheckCircle color="#e8604c" size={20} />
             </span>
             We are an award winning agency
           </p>
-          <p className="flex items-center gap-2 text-base">
+          <p className="flex items-center gap-2 text-base text-gray-300">
             <span className="mb-1">
               <GoCheckCircle color="#e8604c" size={20} />
             </span>
@@ -101,7 +101,7 @@ const AboutSection = () => {
             <h2 className="text-center text-2xl font-semibold py-2">
               Best Price Granted
             </h2>
-            <p className="text-center pb-2">
+            <p className="text-center pb-2 text-gray-400">
               Lorem ipsum dolor sit amet, consecte tur adipiscing elit. sed do
               eiusmod incididunt.
             </p>
@@ -111,7 +111,7 @@ const AboutSection = () => {
             <h2 className="text-center pb-2 text-2xl font-semibold py-2">
               Best Travel Guide
             </h2>
-            <p className="text-center pb-2">
+            <p className="text-center pb-2 text-gray-300">
               Lorem ipsum dolor sit amet, consecte tur adipiscing elit. sed do
               eiusmod incididunt.
             </p>
@@ -121,7 +121,7 @@ const AboutSection = () => {
             <h2 className="text-center text-2xl font-semibold py-2">
               Customer Care 24/7
             </h2>
-            <p className="text-center">
+            <p className="text-center text-gray-300">
               Lorem ipsum dolor sit amet, consecte tur adipiscing elit. sed do
               eiusmod incididunt.
             </p>
