@@ -10,9 +10,11 @@ const NavBar = () => {
 
   return (
     <div className="container flex justify-between items-center py-6">
-      <h1 className="text-3xl font-extrabold text-primaryColor cursor-pointer">
-        Trip<span className="text-white">Buddy</span>
-      </h1>
+      <Link href="/">
+        <h1 className="text-3xl font-extrabold text-primaryColor cursor-pointer">
+          Trip<span className="text-white">Buddy</span>
+        </h1>
+      </Link>
       <div className="md:flex items-center justify-between w-2/4 hidden">
         <ul className="flex items-center gap-4 ">
           <Link href={"/"}>
