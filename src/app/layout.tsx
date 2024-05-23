@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar/NavBar";
+import Footer from "@/components/Footer/Footer";
 
 // Import Roboto font with desired subsets and weights
 const roboto = Roboto({
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={roboto.className}>
         <NavBar />
         {children}
+        <Footer />
       </body>
     </html>
   );
