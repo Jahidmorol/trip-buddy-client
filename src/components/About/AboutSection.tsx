@@ -4,6 +4,21 @@ import { FaAnglesRight } from "react-icons/fa6";
 import { GoCheckCircle } from "react-icons/go";
 
 import aboutImage from "/public/about2.png";
+
+import icon1 from "/public/aboutIcon/icon1.png";
+import icon2 from "/public/aboutIcon/icon2.png";
+import icon3 from "/public/aboutIcon/icon3.png";
+
+import g1 from "/public/gallery/g1.jpg";
+import g2 from "/public/gallery/g2.jpg";
+import g3 from "/public/gallery/g3.jpg";
+import g4 from "/public/gallery/g4.jpg";
+import g5 from "/public/gallery/g5.jpg";
+import g6 from "/public/gallery/g6.jpg";
+import g7 from "/public/gallery/g7.jpg";
+import g8 from "/public/gallery/g8.jpg";
+import g9 from "/public/gallery/g9.jpg";
+
 import { Button } from "../ui/button";
 
 const AboutSection = () => {
@@ -21,7 +36,7 @@ const AboutSection = () => {
           </h1>
         </div>
       </div>
-      <div className="container flex flex-col md:flex-row justify-center items-center gap-12 py-20">
+      <div className="container flex flex-col md:flex-row justify-center items-center gap-12 py-20 mt-16">
         <div className="md:w-[500px]">
           <Image
             className="object-center object-cover w-full h-full"
@@ -71,6 +86,69 @@ const AboutSection = () => {
           >
             Find more trip
           </Button>
+        </div>
+      </div>
+      <div className="container py-10">
+        <h2 className="text-2xl text-primaryColor text-center pb-2">
+          Why Choose Us
+        </h2>
+        <h1 className="text-4xl text-center font-semibold tracking-wide">
+          Why Travel with TripBuddy?
+        </h1>
+        <div className="flex flex-col md:flex-row py-16 gap-4">
+          <div className="border p-4 border-[#e8604c] ">
+            <Image className="mx-auto" src={icon1} alt="image" />
+            <h2 className="text-center text-2xl font-semibold py-2">
+              Best Price Granted
+            </h2>
+            <p className="text-center pb-2">
+              Lorem ipsum dolor sit amet, consecte tur adipiscing elit. sed do
+              eiusmod incididunt.
+            </p>
+          </div>
+          <div className="border p-4 border-[#e8604c] ">
+            <Image className="mx-auto" src={icon2} alt="image" />
+            <h2 className="text-center pb-2 text-2xl font-semibold py-2">
+              Best Travel Guide
+            </h2>
+            <p className="text-center pb-2">
+              Lorem ipsum dolor sit amet, consecte tur adipiscing elit. sed do
+              eiusmod incididunt.
+            </p>
+          </div>
+          <div className="border p-4 border-[#e8604c] ">
+            <Image className="mx-auto" src={icon3} alt="image" />
+            <h2 className="text-center text-2xl font-semibold py-2">
+              Customer Care 24/7
+            </h2>
+            <p className="text-center">
+              Lorem ipsum dolor sit amet, consecte tur adipiscing elit. sed do
+              eiusmod incididunt.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="container">
+        <h2 className="text-2xl text-primaryColor text-center pb-2">
+          Our Gallery
+        </h2>
+        <h1 className="text-4xl text-center font-semibold tracking-wide pb-20">
+          Our Image Gallery
+        </h1>
+        <div className="flex flex-wrap gap-6 pb-20">
+          <Image className="w-[400px] h-[350px]" src={g3} alt="image" />
+
+          <Image className="w-[400px] h-[350px]" src={g1} alt="image" />
+          <Image className="w-[400px] h-[350px]" src={g2} alt="image" />
+
+          <Image className="w-[400px] h-[350px]" src={g4} alt="image" />
+          <Image className="w-[400px] h-[350px]" src={g6} alt="image" />
+
+          <Image className="w-[400px] h-[350px]" src={g5} alt="image" />
+
+          <Image className="w-[400px] h-[350px]" src={g9} alt="image" />
+          <Image className="w-[400px] h-[350px]" src={g7} alt="image" />
+          <Image className="w-[400px] h-[350px]" src={g8} alt="image" />
         </div>
       </div>
     </>
