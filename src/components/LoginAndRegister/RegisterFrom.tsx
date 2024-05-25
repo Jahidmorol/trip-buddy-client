@@ -54,7 +54,6 @@ const RegisterComponent = () => {
     },
   });
 
-  // Watch the values of the fields
   const name = form.watch("name");
   const email = form.watch("email");
   const password = form.watch("password");
@@ -106,7 +105,7 @@ const RegisterComponent = () => {
       if (data?.success) {
         toast.success("Create account successfully!", { id: toastId });
 
-        router.push("/");
+        router.push("/login");
 
         setIsLoading(false);
       } else {
