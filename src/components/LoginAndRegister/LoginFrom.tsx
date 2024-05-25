@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { userLogin } from "@/services/userLogin";
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -31,10 +32,37 @@ const LoginComponent = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const extractTokenFromCookie = (cookieHeader: string) => {
+    const tokenMatch = cookieHeader.match(/accessToken=([^;]*)/);
+    return tokenMatch ? tokenMatch[1] : null;
+  };
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const { userInfo, setCookieHeader } = await userLogin(values);
+
+      const token = extractTokenFromCookie(setCookieHeader!);
+
+      if (token) {
+        localStorage.setItem("accessToken", token);
+      } else {
+        console.error("Token not found in cookie header");
+      }
+
+      // if (setCookieHeader) {
+      //   localStorage.setItem(setCookieHeader);
+      // }
+
+      if (userInfo) {
+        console.log("login page form", userInfo);
+        // router.push("/dashboard");
+      } else {
+        // setError(res.message);
+        // console.log(res?.message);
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
   };
 
   return (

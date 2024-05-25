@@ -1,6 +1,5 @@
 import SingleCard from "@/components/Card/SingleCard";
 import HeroSection from "@/components/HeroSection/HeroSection";
-import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (

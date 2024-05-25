@@ -1,3 +1,4 @@
+"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -40,7 +41,7 @@ const formSchema = z
     path: ["confirmPassword"],
   });
 
-const RegisterComponent = () => {
+const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -206,4 +207,4 @@ const RegisterComponent = () => {
     </div>
   );
 };
-export default RegisterComponent;
+export default RegisterPage;

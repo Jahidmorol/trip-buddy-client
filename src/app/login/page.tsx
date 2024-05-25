@@ -4,6 +4,7 @@ import RegisterComponent from "@/components/LoginAndRegister/RegisterFrom";
 import LoginComponent from "@/components/LoginAndRegister/LoginFrom";
 
 import React, { useState } from "react";
+import Link from "next/link";
 
 const LoginPage = () => {
   const [toggle, setToggle] = useState(false);
@@ -26,16 +27,18 @@ const LoginPage = () => {
             >
               Sign In
             </button>
-            <button
-              onClick={() => setToggle(true)}
-              className={`${
-                toggle
-                  ? "!bg-[#e44d36]"
-                  : "text-[#e44d36] border border-[#e44d36]"
-              } hover:bg-[#e44d36] hover:text-white py-2 px-20 text-lg font-semibold transition-all duration-200`}
-            >
-              Sign Up
-            </button>
+            <Link href="/register">
+              <button
+                onClick={() => setToggle(true)}
+                className={`${
+                  toggle
+                    ? "!bg-[#e44d36]"
+                    : "text-[#e44d36] border border-[#e44d36]"
+                } hover:bg-[#e44d36] hover:text-white py-2 px-20 text-lg font-semibold transition-all duration-200`}
+              >
+                Sign Up
+              </button>
+            </Link>
           </div>
           {toggle ? <RegisterComponent /> : <LoginComponent />}
         </div>
