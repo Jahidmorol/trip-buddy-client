@@ -14,7 +14,7 @@ const Sidebar = () => {
         <Link href={"/user"}>
           <li>Profile</li>
         </Link>
-        <Link href={"/user"}>
+        <Link href={"/user/change-password"}>
           <li>Password</li>
         </Link>
       </ul>
