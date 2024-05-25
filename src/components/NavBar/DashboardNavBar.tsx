@@ -3,34 +3,22 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { GrClose } from "react-icons/gr";
 import Link from "next/link";
-import { FaBars, FaUserAlt } from "react-icons/fa";
+import { FaBars, FaUser, FaUserAlt } from "react-icons/fa";
 
-const NavBar = () => {
+const DashboardNavBar = () => {
   const [isSidebarMenuOpen, setIsSidebarMenuOpen] = useState(false);
 
   return (
-    <div className="container flex justify-between items-center py-6">
+    <div className="container flex justify-between items-center pt-5 pb-4 !px-0 border-b border-[#9e483a]">
       <Link href="/">
         <h1 className="text-3xl font-extrabold text-primaryColor cursor-pointer">
           Trip<span className="text-white">Buddy</span>
         </h1>
       </Link>
       <div className="md:flex items-center justify-between w-2/4 hidden">
-        <ul className="flex items-center gap-4 ">
-          <Link href={"/"}>
-            <li>Home</li>
-          </Link>
-          <Link href={"/about"}>
-            <li>About</li>
-          </Link>
-          <Link href={"/user"}>
-            <li>profile</li>
-          </Link>
-        </ul>
+        <input placeholder="search..." />
         <Link href={"/login"}>
-          <Button className="border " variant={"outline"}>
-            Sign In / Register
-          </Button>
+          <FaUser className="text-3xl border p-1 rounded-full " />
         </Link>
       </div>
       {/* mobil device  */}
@@ -72,4 +60,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default DashboardNavBar;
