@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { GrClose } from "react-icons/gr";
@@ -15,7 +16,7 @@ const NavBar = () => {
           Trip<span className="text-white">Buddy</span>
         </h1>
       </Link>
-      <div className="md:flex items-center justify-between w-2/4 hidden">
+      <div className="md:flex items-center justify-between w-[58%] hidden">
         <ul className="flex items-center gap-4 ">
           <Link href={"/"}>
             <li>Home</li>
@@ -24,7 +25,10 @@ const NavBar = () => {
             <li>About</li>
           </Link>
           <Link href={"/user"}>
-            <li>profile</li>
+            <li>Profile</li>
+          </Link>
+          <Link href={"/all-trip"}>
+            <li>All Trip</li>
           </Link>
         </ul>
         <Link href={"/login"}>

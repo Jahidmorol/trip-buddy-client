@@ -1,6 +1,6 @@
 import { Button } from "../ui/button";
 
-const HeroSection = () => {
+const HomeHeroSection = () => {
   return (
     <div className="relative">
       <div className="absolute inset-0 bg-heroSection bg-center bg-cover opacity-50"></div>
@@ -27,4 +27,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default HomeHeroSection;
