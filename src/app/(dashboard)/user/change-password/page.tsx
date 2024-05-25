@@ -87,6 +87,9 @@ const ChangePassword = () => {
 
   return (
     <div className="">
+      <h1 className="text-3xl font-semibold text-center pt-4 md:pt-8">
+        Password Change
+      </h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="mt-4">
@@ -149,13 +152,13 @@ const ChangePassword = () => {
               )}
             />
           </div>
-          <div className="border-[3px] border-black mt-6 mx-20 rounded-full" />
+
           <Button
-            className="w-full text-white font-semibold my-6 border border-[#e44d36] hover:border-black py-5 text-lg"
+            className="w-full text-white font-semibold my-11 border border-[#e44d36] hover:border-black py-6 text-lg !rounded-[9px] overflow-hidden hover:bg-white hover:text-black"
             variant={"outline"}
             type="submit"
           >
-            {isLoading ? "Loading..." : "Sign Up"}
+            {isLoading ? "Loading..." : "Save Password"}
           </Button>
         </form>
       </Form>
