@@ -15,8 +15,14 @@ const DashboardNavBar = () => {
           Trip<span className="text-white">Buddy</span>
         </h1>
       </Link>
-      <div className="md:flex items-center justify-between w-2/4 hidden">
-        <input placeholder="search..." />
+      <div className="md:flex items-center justify-between w-[82%] hidden">
+        <input
+          type="text"
+          autoComplete="off"
+          placeholder="Search..."
+          className="mt-1 block w-[300px] rounded-xl border border-gray-400 bg-gray-100 px-3 py-2 shadow-sm placeholder:font-semibold placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:font-semibold focus:ring-1 focus:ring-[#e44d36] sm:text-sm"
+          style={{ color: "black" }}
+        />
         <Link href={"/login"}>
           <FaUser className="text-3xl border p-1 rounded-full " />
         </Link>
