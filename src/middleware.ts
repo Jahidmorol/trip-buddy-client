@@ -33,16 +33,25 @@
 // };
 
 import { NextRequest, NextResponse } from "next/server";
+import { jwtHelpers } from "./helpers/jwtHelpers";
+
+const AuthRoutes = ["/login", "/register"];
 
 export function middleware(req: NextRequest) {
-  const path = req.nextUrl.pathname;
+  const { pathname } = req.nextUrl;
 
-  const isPublicPath = path === "/login";
   const accessToken = req.cookies.get("accessToken")?.value || "";
 
-  if (!isPublicPath && !accessToken) {
-    return NextResponse.redirect(new URL("/login", req.nextUrl.origin));
+  if (!accessToken) {
+    if (AuthRoutes.includes(pathname)) {
+      return NextResponse.next();
+    } else {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
   }
+
+  const user = jwtHelpers.decodedJWT(accessToken!);
+  console.log("middleware", user);
 
   // if (accessToken) {
   //   return NextResponse.redirect(new URL("/", req.nextUrl));
@@ -54,5 +63,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/dashboard", "/protected-path", "/another-protected-path"],
+  matcher: ["/user", "/admin", "/another-protected-path"],
 };
