@@ -1,16 +1,31 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { jwtHelpers } from "@/helpers/jwtHelpers";
 import { getFromLocalStorage } from "@/utils/local-storage";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const Sidebar = () => {
   const token = getFromLocalStorage("accessToken");
   const pathname = usePathname();
+  const router = useRouter();
 
-  const user = jwtHelpers.decodedJWT(token!);
+  const [user, setUser] = useState<any>({});
+
+  useEffect(() => {
+    if (token) {
+      try {
+        const userData = jwtHelpers.decodedJWT(token);
+        setUser(userData);
+      } catch (error: any) {
+        router.push("/login");
+      }
+    } else {
+      router.push("/login");
+    }
+  }, []);
 
   return (
     <div className="md:min-w-[220px]  md:border-r md:border-l md:border-b border-[#9e483a]">

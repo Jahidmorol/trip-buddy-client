@@ -1,4 +1,5 @@
 "use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -13,10 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { Input } from "@/components/ui/input";
-import { userRegister } from "@/services/userRegister";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+
+import { passwordChange } from "@/services/passwordChange";
 
 const formSchema = z
   .object({
@@ -37,7 +37,6 @@ const formSchema = z
 
 const ChangePassword = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,16 +63,14 @@ const ChangePassword = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
-    const toastId = toast.loading("Creating account...");
+    const toastId = toast.loading("Password Changing...");
 
     try {
-      const data = await userRegister(values);
+      const data = await passwordChange(values);
 
       if (data?.success) {
-        toast.success("Create account successfully!", { id: toastId });
-
-        router.push("/login");
-
+        toast.success("Password Change successful!", { id: toastId });
+        form.reset();
         setIsLoading(false);
       } else {
         toast.error(data?.errorDetails?.error, { id: toastId });
