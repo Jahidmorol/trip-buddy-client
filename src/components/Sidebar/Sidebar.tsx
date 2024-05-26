@@ -1,12 +1,13 @@
 "use client";
 
 import { jwtHelpers } from "@/helpers/jwtHelpers";
+import { getFromLocalStorage } from "@/utils/local-storage";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 const Sidebar = () => {
-  const token = localStorage.getItem("accessToken");
+  const token = getFromLocalStorage("accessToken");
   const pathname = usePathname();
 
   const user = jwtHelpers.decodedJWT(token!);
