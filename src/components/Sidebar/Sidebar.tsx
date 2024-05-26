@@ -1,4 +1,5 @@
 "use client";
+
 import { jwtHelpers } from "@/helpers/jwtHelpers";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -59,7 +60,7 @@ const Sidebar = () => {
           </Link>
           <Link
             className={`${
-              pathname === "/" ? "bg-[#e44d36]" : ""
+              pathname === "/user/request" ? "bg-[#e44d36]" : ""
             } text-white py-2 px-5 text-lg`}
             href={"/user/request"}
           >
@@ -67,9 +68,9 @@ const Sidebar = () => {
           </Link>
           <Link
             className={`${
-              pathname === "/" ? "bg-[#e44d36]" : ""
+              pathname === "/user/profile" ? "bg-[#e44d36]" : ""
             } text-white py-2 px-5 text-lg`}
-            href={"/user"}
+            href={"/user/profile"}
           >
             <li>Profile</li>
           </Link>
@@ -79,7 +80,7 @@ const Sidebar = () => {
             } text-white py-2 px-5 text-lg`}
             href={"/user/change-password"}
           >
-            <li>Password</li>
+            <li>Change Password</li>
           </Link>
         </ul>
       )}
