@@ -12,6 +12,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { userLogin } from "@/services/userLogin";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -24,44 +27,50 @@ const formSchema = z.object({
 });
 
 const LoginComponent = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "fo54@gmail.com",
+      password: "12134567890",
     },
   });
 
-  const extractTokenFromCookie = (cookieHeader: string) => {
-    const tokenMatch = cookieHeader.match(/accessToken=([^;]*)/);
-    return tokenMatch ? tokenMatch[1] : null;
+  const setAccessTokenCookie = (token: string): void => {
+    document.cookie = `accessToken=${token}; path=/; secure; SameSite=Strict`;
   };
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (
+    values: z.infer<typeof formSchema>
+  ): Promise<void> => {
+    setIsLoading(true);
+    const toastId = toast.loading("login...");
+
     try {
-      const { userInfo, setCookieHeader } = await userLogin(values);
+      const { userInfo } = await userLogin(values);
 
-      const token = extractTokenFromCookie(setCookieHeader!);
+      if (userInfo && userInfo.data && userInfo.data.accessToken) {
+        const token = userInfo.data.accessToken;
 
-      if (token) {
+        setAccessTokenCookie(token);
         localStorage.setItem("accessToken", token);
-      } else {
-        console.error("Token not found in cookie header");
-      }
 
-      // if (setCookieHeader) {
-      //   localStorage.setItem(setCookieHeader);
-      // }
-
-      if (userInfo) {
-        console.log("login page form", userInfo);
-        // router.push("/dashboard");
+        if (userInfo?.success) {
+          toast.success("login successfully!", { id: toastId });
+          router.push("/");
+          setIsLoading(false);
+        } else {
+          toast.error(userInfo?.errorDetails?.error, { id: toastId });
+          setIsLoading(false);
+        }
       } else {
-        // setError(res.message);
-        // console.log(res?.message);
+        toast.error("Token not found in response data", { id: toastId });
+        setIsLoading(false);
       }
     } catch (err: any) {
-      console.error(err.message);
+      toast.error(err?.message, { id: toastId });
+      setIsLoading(false);
     }
   };
 
@@ -109,7 +118,7 @@ const LoginComponent = () => {
             variant={"outline"}
             type="submit"
           >
-            Sign In
+            {isLoading ? "Loading..." : "Sign In"}
           </Button>
         </form>
       </Form>
