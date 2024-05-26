@@ -1,5 +1,9 @@
 "use client";
-import { updateUserRole, userManagement } from "@/services/adminManagement";
+import {
+  updateUserRole,
+  updateUserStatus,
+  userManagement,
+} from "@/services/adminManagement";
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -11,7 +15,6 @@ import {
 } from "@/components/ui/table";
 import { toast } from "sonner";
 
-// Define the type for user data
 interface User {
   id: string;
   name: string;
@@ -34,16 +37,22 @@ const UserManagement: React.FC = () => {
       }
     };
     getData();
+    setUpdate(false);
   }, [update]);
 
   const handleRoleChange = async (
     userId: string,
     newRole: "ADMIN" | "USER"
   ) => {
-    console.log("userId", userId, newRole);
+    const userData = {
+      role: newRole,
+    };
+    const updateData = await updateUserRole(userData, userId);
 
-    // Optionally, send the new role to the backend
-    // updateUserRole(userId, newRole);
+    if (updateData?.success) {
+      toast.success("User Role update successful!");
+      setUpdate(true);
+    }
   };
 
   const handleStatusChange = async (
@@ -53,10 +62,10 @@ const UserManagement: React.FC = () => {
     const userData = {
       isActive: newStatus,
     };
-    const updateData = await updateUserRole(userData, userId);
+    const updateData = await updateUserStatus(userData, userId);
 
     if (updateData?.success) {
-      toast.success("user role update successful!");
+      toast.success("User Status update successful!");
       setUpdate(true);
     }
   };
