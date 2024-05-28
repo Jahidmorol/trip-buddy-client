@@ -2,10 +2,29 @@
 import TripHeroSection from "@/components/BannerSection/TripHeroSection";
 import SingleCard from "@/components/Card/SingleCard";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import { getAllTrips } from "@/services/homeDataFetching";
+import React, { useEffect, useState } from "react";
 
 const AllTripPage = () => {
   const [filter, setFilter] = useState("Filter");
+
+  const [allTrips, setTrips] = useState<any>([]);
+  const [update, setUpdate] = useState(false);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await getAllTrips();
+        setTrips(data?.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    getData();
+    setUpdate(false);
+  }, [update]);
+
+  console.log(allTrips);
   return (
     <div>
       <TripHeroSection />
