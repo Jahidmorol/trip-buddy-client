@@ -1,4 +1,5 @@
 "use client";
+
 import TripHeroSection from "@/components/BannerSection/TripHeroSection";
 import SingleCard from "@/components/Card/SingleCard";
 import { Button } from "@/components/ui/button";
@@ -15,7 +16,7 @@ const AllTripPage = () => {
     const getData = async () => {
       try {
         const data = await getAllTrips();
-        setTrips(data?.data);
+        setTrips(data?.data?.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -24,7 +25,6 @@ const AllTripPage = () => {
     setUpdate(false);
   }, [update]);
 
-  console.log(allTrips);
   return (
     <div>
       <TripHeroSection />
@@ -86,12 +86,15 @@ const AllTripPage = () => {
         </div>
       </div>
       <div className="container grid grid-cols-1 md:grid-cols-3 gap-y-4 mt-14 mb-24">
+        {allTrips?.map((card: any) => (
+          <SingleCard card={card} key={card?.id} />
+        ))}
+        {/* <SingleCard />
         <SingleCard />
         <SingleCard />
         <SingleCard />
         <SingleCard />
-        <SingleCard />
-        <SingleCard />
+        <SingleCard /> */}
       </div>
       <div className="flex justify-center items-center">
         <Button

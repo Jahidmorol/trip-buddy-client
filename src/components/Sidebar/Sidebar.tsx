@@ -76,6 +76,14 @@ const Sidebar = () => {
           </Link>
           <Link
             className={`${
+              pathname === "/user/my-all-trip" ? "bg-[#e44d36]" : ""
+            } text-white py-2 px-5 text-lg`}
+            href={"/user/my-all-trip"}
+          >
+            <li>My ALl Trip </li>
+          </Link>
+          <Link
+            className={`${
               pathname === "/user/request" ? "bg-[#e44d36]" : ""
             } text-white py-2 px-5 text-lg`}
             href={"/user/request"}
