@@ -80,7 +80,7 @@ const Sidebar = () => {
             } text-white py-2 px-5 text-lg`}
             href={"/user/my-all-trip"}
           >
-            <li>My ALl Trip </li>
+            <li>My ALL Trip </li>
           </Link>
           <Link
             className={`${
