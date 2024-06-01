@@ -54,6 +54,7 @@ const LoginComponent = () => {
         const token = userInfo.data.accessToken;
 
         setAccessTokenCookie(token);
+
         localStorage.setItem("accessToken", token);
 
         if (userInfo?.success) {

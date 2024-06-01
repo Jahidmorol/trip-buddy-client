@@ -1,13 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { GrClose } from "react-icons/gr";
 import Link from "next/link";
 import { FaBars, FaUserAlt } from "react-icons/fa";
+import { getFromLocalStorage } from "@/utils/local-storage";
+import { useRouter } from "next/navigation";
+import { jwtHelpers } from "@/helpers/jwtHelpers";
 
 const NavBar = () => {
   const [isSidebarMenuOpen, setIsSidebarMenuOpen] = useState(false);
+  const token = getFromLocalStorage("accessToken");
+
+  const router = useRouter();
+
+  const [user, setUser] = useState<any>({});
+
+  useEffect(() => {
+    if (token) {
+      try {
+        const userData = jwtHelpers.decodedJWT(token);
+        setUser(userData);
+      } catch (error: any) {
+        router.push("/login");
+      }
+    } else {
+      router.push("/login");
+    }
+  }, [token]);
+
+  console.log(user);
 
   return (
     <div className="container flex justify-between items-center py-6">
@@ -24,11 +47,11 @@ const NavBar = () => {
           <Link href={"/about"}>
             <li>About</li>
           </Link>
-          <Link href={"/user"}>
-            <li>Profile</li>
-          </Link>
           <Link href={"/all-trip"}>
             <li>All Trip</li>
+          </Link>
+          <Link href={`${user?.role === "ADMIN" ? "/admin" : "/user"}`}>
+            <li>Profile</li>
           </Link>
         </ul>
         <Link href={"/login"}>
