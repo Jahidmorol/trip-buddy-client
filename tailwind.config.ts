@@ -79,6 +79,7 @@ const config = {
       loginSection: "url(/login.jpg)",
       aboutSection: "url(/about.jpg)",
       tripSection: "url(/trip.jpg)",
+      singlePageSection: "url(/singlePage.jpg)",
     },
   },
   plugins: [require("tailwindcss-animate")],

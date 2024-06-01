@@ -10,6 +10,7 @@ import img2 from "../../../../../public/gallery/g2.jpg";
 import img3 from "../../../../../public/gallery/g6.jpg";
 import img4 from "../../../../../public/gallery/g4.jpg";
 import Link from "next/link";
+import { FaFlag } from "react-icons/fa";
 
 const SingleTripPage = () => {
   const { id } = useParams();
@@ -28,11 +29,13 @@ const SingleTripPage = () => {
     getData();
   }, [id]);
 
+  console.log("singleTrip", singleTrip);
+
   return (
     <div>
       <div className="relative">
-        <div className="absolute inset-0 bg-aboutSection opacity-50 bg-cover bg-center"></div>
-        <div className="relative z-10  py-28 container">
+        <div className="absolute inset-0 bg-singlePageSection opacity-75 bg-cover bg-top "></div>
+        <div className="relative z-10  py-36 container">
           <p className="flex items-center gap-2 text-gray-300">
             All Trip <FaAnglesRight />
             Trip Details
@@ -61,9 +64,7 @@ const SingleTripPage = () => {
         </div>
       </div>
 
-      {/* book trip now 
-    --------------------- */}
-      <div className="container flex justify-between items-center p-16 shadow-[5px_5px_20px_-10px_rgba(255,255,255,0.3),_-5px_-5px_20px_-10px_rgba(255,255,255,0.3)] my-14 rounded-3xl">
+      <div className="container flex justify-between items-center shadow-[5px_5px_20px_-10px_rgba(255,255,255,0.3),_-5px_-5px_20px_-10px_rgba(255,255,255,0.3)] my-14 rounded-3xl !px-6 py-14">
         <p className="text-3xl font-semibold">Host Details</p>
         <Link
           href="#"
@@ -74,88 +75,46 @@ const SingleTripPage = () => {
       </div>
 
       <div className="container">
-        <h2 className=" sm:text-3xl font-semibold text-lg mb-5">
-          Tour Details
-        </h2>
-        <div className="space-y-7">
+        <h2 className="sm:text-3xl font-semibold text-lg mb-5">Tour Details</h2>
+        <h2 className="font-semibold text-lg">Trip Name Or Destination</h2>
+        <p className="pt-2 text-lg flex items-center gap-1">
+          Trip Name is{" "}
+          <mark className="px-2 bg-red-500 text-white">
+            {singleTrip?.title}
+          </mark>{" "}
+          and Destination {""}
+          <mark className="px-2 bg-red-500 text-white flex items-center gap-2 w-fit">
+            {singleTrip?.destination} <FaFlag />
+          </mark>
+        </p>
+
+        <div className="space-y-6 mt-8">
           <p className="font-semibold text-lg">About This Experience</p>
-          <p>
-            Double the free fall of the Bungy with almost as much fear! Giant
-            Swing offers you the ultimate spine-chilling experience. Challenge
-            your fears as you swing through the lush valleys of Rishikesh- solo
-            or in tandem! An adaptation of the Canyon Swing that happens in New
-            Zealand, the Giant Swing is set amidst the pahadi landscape of
-            Uttarakhand! Operated from the same Bungy Cantilever, this is
-            India’s most extreme Giant Swing!
+          <p>{singleTrip?.description}</p>
+
+          <p className="font-semibold text-lg">Our Activates!</p>
+
+          <div className="flex gap-20">
+            <div>
+              <p className="font-semibold text-lg pb-1">Activates: </p>
+              <div className="pl-6">
+                {singleTrip?.activities?.map((a: string, i: string) => (
+                  <li key={i}>{a}</li>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="font-semibold text-lg">Trip Start Or End Date : </p>
+              <ul className="text-lg py-4">
+                <li>Start Date : {singleTrip?.startDate}</li>
+                <li>End Date : {singleTrip?.endDate}</li>
+              </ul>
+            </div>
+          </div>
+
+          <p className="font-semibold text-lg mb-4">
+            Tour Type : {singleTrip?.tripType}
           </p>
-
-          <p className="font-semibold text-lg">Who Should Attend ?</p>
-
-          <div className="">
-            <p className="font-semibold text-lg">Requirements :</p>
-            <div className="pl-6">
-              <li>Min. Age :12 years</li>
-              <li>Min. Weight : 35 Kgs</li>
-              <li>Max. Weight : 130 Kgs</li>
-            </div>
-          </div>
-
-          <div className="">
-            <p className="font-semibold text-lg mb-4">Medical Conditions:</p>
-
-            <p>
-              Due to its extreme nature, this sport is not suitable for people
-              with the following medical conditions.
-            </p>
-
-            <div className="pl-6 py-1">
-              <li>Back or Neck injuries</li>
-              <li>Recent Fracture</li>
-              <li>Any Dislocation</li>
-              <li>High Blood Pressure</li>
-              <li>Asthma</li>
-              <li>Neurological Disorders</li>
-              <li>Epilepsy</li>
-              <li>Heart Conditions</li>
-              <li>Pregnancy</li>
-            </div>
-
-            <p>
-              In case of any of these conditions, you will be prohibited from
-              Jumping. In case of any other relevant conditions, especially over
-              the age of 45, you are obliged to inform the Crew, and will
-              further be allowed to jump only at their discretion.
-            </p>
-          </div>
-
-          <div className="">
-            <p>
-              “These being extreme adventure sports,come prepared to rough it
-              out.”
-            </p>
-            <p className="font-semibold text-lg">HIGHLIGHTS:</p>
-
-            <div className="pl-6 py-1">
-              <li>Jumpin Heights is owned and run by Ex-Army officers.</li>
-              <li>
-                Jump Masters trained extensively under experts from New Zealand.
-              </li>
-              <li>We follow Australia & New Zealand Safety standards.</li>
-              <li>
-                {" "}
-                Operated over 1.5 lakh jumps- a record for adventure tourism in
-                India.
-              </li>
-              <li>
-                Jumpin Heights is the only adventure facility to be certified by
-                the Ministry of Tourism, Govt.
-              </li>
-              <li>
-                of India for Bungy and Giant Swing operations in the country!
-                Details
-              </li>
-            </div>
-          </div>
 
           <div className="">
             <p className="font-semibold text-lg mb-4">What we will do ?</p>
@@ -166,11 +125,17 @@ const SingleTripPage = () => {
           </div>
         </div>
       </div>
+      <Link
+        href="#"
+        className="bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out hover:bg-transparent duration-300 block mx-auto w-fit mb-9"
+      >
+        Book Now Trip
+      </Link>
 
       <div className="my-16  bg-gray-700 p-14">
         <div className="container">
           <h2 className="sm:text-3xl font-semibold text-lg mb-6">
-            Briefing: Understand the bungy and safety procedure
+            Briefing: Understand the buggy and safety procedure
           </h2>
 
           <ul className="space-y-4 list-outside list-disc">
