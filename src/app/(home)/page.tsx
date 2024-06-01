@@ -2,6 +2,7 @@ import SingleCard from "@/components/Card/SingleCard";
 import HomeHeroSection from "@/components/BannerSection/HomeHeroSection";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import ExtraSection from "@/components/ExtraSection/ExtraSection";
 
 export default async function Home() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trips`, {
@@ -42,6 +43,7 @@ export default async function Home() {
             </Button>
           </Link>
         </div>
+        <ExtraSection />
       </div>
     </div>
   );
