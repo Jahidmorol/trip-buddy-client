@@ -52,10 +52,6 @@ export const getSingleTrips = async (id: string) => {
 };
 
 export const getMyDetails = async () => {
-  if (!accessToken) {
-    throw new Error("No authentication token found");
-  }
-
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/profile`,
     {

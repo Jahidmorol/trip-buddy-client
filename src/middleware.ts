@@ -63,5 +63,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/user", "/admin", "/another-protected-path"],
+  matcher: ["/user", "/user/my-all-trip", "/admin", "/another-protected-path"],
 };

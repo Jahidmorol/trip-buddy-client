@@ -1,37 +1,65 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { GrClose } from "react-icons/gr";
 import Link from "next/link";
 import { FaBars, FaUserAlt } from "react-icons/fa";
 import { getFromLocalStorage } from "@/utils/local-storage";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { jwtHelpers } from "@/helpers/jwtHelpers";
+import { UserContext } from "@/UserProvider/UserProvider";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+export const deleteCookie = (name: string) => {
+  document.cookie = `${name}=; Max-Age=-99999999;`;
+};
 
 const NavBar = () => {
   const [isSidebarMenuOpen, setIsSidebarMenuOpen] = useState(false);
-  const token = getFromLocalStorage("accessToken");
+  const [token, setToken] = useState<string | null>(null);
+  const userContext = useContext(UserContext);
+  const pathname = usePathname();
+
+  const { data, setRefetch, isLoading } = userContext || {
+    data: null,
+    setRefetch: () => {},
+    isLoading: false,
+  };
+  console.log(data);
 
   const router = useRouter();
 
   const [user, setUser] = useState<any>({});
 
   useEffect(() => {
-    if (token) {
+    const savedToken = getFromLocalStorage("accessToken");
+    setToken(savedToken);
+
+    if (savedToken) {
       try {
-        const userData = jwtHelpers.decodedJWT(token);
+        const userData = jwtHelpers.decodedJWT(savedToken);
         setUser(userData);
       } catch (error: any) {
-        router.push("/login");
+        // router.push("/login");
       }
     } else {
-      router.push("/login");
+      // router.push("/login");
     }
-  }, [token]);
+  }, [router]);
 
-  console.log(user);
-
+  const handleLogout = () => {
+    deleteCookie("accessToken");
+    localStorage.removeItem("accessToken");
+    setToken(null);
+    setUser({});
+    router.refresh();
+  };
   return (
     <div className="container flex justify-between items-center py-6">
       <Link href="/">
@@ -40,27 +68,78 @@ const NavBar = () => {
         </h1>
       </Link>
       <div className="md:flex items-center justify-between w-[58%] hidden">
-        <ul className="flex items-center gap-4 ">
-          <Link href={"/"}>
+        <ul className="flex gap-1 items-center text-lg font-semibold tracking-[0.9px]">
+          <Link
+            className={`${
+              pathname === "/"
+                ? "text-primaryColor text-[20px] hover:text-[21px] hover:text-white"
+                : ""
+            } hover:text-primaryColor transition-all hover:text-[20px] w-[70px] text-center`}
+            href={"/"}
+          >
             <li>Home</li>
           </Link>
-          <Link href={"/about"}>
+          <Link
+            className={`${
+              pathname === "/about"
+                ? "text-primaryColor text-[20px] hover:text-[21px] hover:text-white"
+                : ""
+            } hover:text-primaryColor transition-all hover:text-[20px] w-[70px] text-center`}
+            href={"/about"}
+          >
             <li>About</li>
           </Link>
-          <Link href={"/all-trip"}>
+          <Link
+            className={`${
+              pathname === "/all-trip"
+                ? "text-primaryColor text-[20px] hover:text-[21px] hover:text-white"
+                : ""
+            } hover:text-primaryColor transition-all hover:text-[20px] w-[75px] text-center`}
+            href={"/all-trip"}
+          >
             <li>All Trip</li>
           </Link>
-          <Link href={`${user?.role === "ADMIN" ? "/admin" : "/user"}`}>
-            <li>Profile</li>
-          </Link>
+          {token && (
+            <Link
+              className="hover:text-primaryColor transition-all hover:text-[20px] w-[70px] text-center"
+              href={`${user?.role === "ADMIN" ? "/admin" : "/user"}`}
+            >
+              <li>Profile</li>
+            </Link>
+          )}
         </ul>
-        <Link href={"/login"}>
-          <Button className="border " variant={"outline"}>
-            Sign In / Register
-          </Button>
-        </Link>
+        {token ? (
+          <div className="flex items-center gap-3">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <h1 className="border flex items-center justify-center transition-all hover:bg-[#EF4444] border-white rounded-full w-10 h-10 text-center uppercase text-lg">
+                    {data?.name?.charAt(0)}
+                  </h1>
+                </TooltipTrigger>
+                <TooltipContent className="bg-black mt-2">
+                  <p className="pb-1">Name : {data?.name}</p>
+                  <p>Email : {data?.email}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <Button
+              onClick={handleLogout}
+              className="border"
+              variant={"outline"}
+            >
+              Log Out
+            </Button>
+          </div>
+        ) : (
+          <Link href={"/login"}>
+            <Button className="border" variant={"outline"}>
+              Sign In / Register
+            </Button>
+          </Link>
+        )}
       </div>
-      {/* mobil device  */}
+      {/* Mobile device */}
       <FaBars
         onClick={() => setIsSidebarMenuOpen(true)}
         fontSize={28}
@@ -76,23 +155,81 @@ const NavBar = () => {
             <GrClose
               onClick={() => setIsSidebarMenuOpen(false)}
               fontSize={50}
-              className="font-bold primary-color cursor-pointer text-white "
+              className="font-bold primary-color cursor-pointer text-white"
             />
 
             <div className="bg-gray-300 h-1 w-full"></div>
+            <Link href="/">
+              <h1 className="text-2xl font-extrabold text-primaryColor cursor-pointer">
+                Trip<span className="text-white">Buddy</span>
+              </h1>
+            </Link>
           </div>
 
-          <ul className="pl-11">
-            <li onClick={() => setIsSidebarMenuOpen(false)} className="text-xl">
+          <ul
+            onClick={() => setIsSidebarMenuOpen(false)}
+            className="flex flex-col gap-5 pl-8 text-lg font-semibold tracking-[0.9px]"
+          >
+            <Link
+              className={`${
+                pathname === "/"
+                  ? "text-primaryColor text-[20px] hover:text-[21px] hover:text-white"
+                  : ""
+              } hover:text-primaryColor transition-all hover:text-[20px] w-[70px]`}
+              href={"/"}
+            >
+              <li>Home</li>
+            </Link>
+            <Link
+              className={`${
+                pathname === "/about"
+                  ? "text-primaryColor text-[20px] hover:text-[21px] hover:text-white"
+                  : ""
+              } hover:text-primaryColor transition-all hover:text-[20px] w-[70px]`}
+              href={"/about"}
+            >
+              <li>About</li>
+            </Link>
+            <Link
+              className={`${
+                pathname === "/all-trip"
+                  ? "text-primaryColor text-[20px] hover:text-[21px] hover:text-white"
+                  : ""
+              } hover:text-primaryColor transition-all hover:text-[20px] w-[75px]`}
+              href={"/all-trip"}
+            >
+              <li>All Trip</li>
+            </Link>
+            {token && (
               <Link
-                href={"/"}
-                className={`flex items-center gap-3 font-semibold mb-8 text-sm`}
+                className="hover:text-primaryColor transition-all hover:text-[20px] w-[70px]"
+                href={`${user?.role === "ADMIN" ? "/admin" : "/user"}`}
               >
-                <FaUserAlt fontSize={20} className="primary-color" />
-                profile
+                <li>Profile</li>
               </Link>
-            </li>
+            )}
           </ul>
+
+          {token ? (
+            <div>
+              <Button
+                onClick={handleLogout}
+                className="border w-full font-semibold mt-6"
+                variant={"outline"}
+              >
+                Log Out
+              </Button>
+            </div>
+          ) : (
+            <Link href={"/login"}>
+              <Button
+                className="border w-full font-semibold mt-6"
+                variant={"outline"}
+              >
+                Sign In / Register
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </div>
