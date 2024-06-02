@@ -18,6 +18,7 @@ import { toast } from "sonner";
 
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "@/UserProvider/UserProvider";
+import { updateUserDetails } from "@/services/homeDataFetching";
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -87,8 +88,15 @@ const UserProfile = () => {
     const toastId = toast.loading("Updating...");
 
     try {
-      console.log("data", values);
+      const userData = {
+        name: values.username,
+        email: values.email,
+      };
+
+      updateUserDetails(userData);
+
       toast.success("Your information updated successfully", { id: toastId });
+      setIsLoading(false);
     } catch (err: any) {
       toast.error(err?.message, { id: toastId });
       setIsLoading(false);
@@ -134,7 +142,7 @@ const UserProfile = () => {
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Your user name</FormLabel>
+                    <FormLabel>Your User Name</FormLabel>
                     <Input
                       type="text"
                       autoComplete="off"
@@ -161,4 +169,5 @@ const UserProfile = () => {
     </div>
   );
 };
+
 export default UserProfile;
