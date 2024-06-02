@@ -37,6 +37,20 @@ import { jwtHelpers } from "./helpers/jwtHelpers";
 
 const AuthRoutes = ["/login", "/register"];
 
+const UserRoutes = [
+  "/user",
+  "/user/my-all-trip",
+  "/user/change-password",
+  "/user/request",
+];
+
+const AdminRoutes = [
+  "/admin",
+  "/admin/user-management",
+  "/admin/change-password",
+  "/admin/trip-management",
+];
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
@@ -50,18 +64,33 @@ export function middleware(req: NextRequest) {
     }
   }
 
-  const user = jwtHelpers.decodedJWT(accessToken!);
-  console.log("middleware", user);
+  try {
+    const user = jwtHelpers.decodedJWT(accessToken);
 
-  // if (accessToken) {
-  //   return NextResponse.redirect(new URL("/", req.nextUrl));
-  // }
+    // Check if the user role is USER and trying to access user routes
+    if (UserRoutes.includes(pathname) && user.role !== "USER") {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
 
-  // Additional logic, such as token verification, can be added here
+    if (AdminRoutes.includes(pathname) && user.role !== "ADMIN") {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
 
-  return NextResponse.next();
+    return NextResponse.next();
+  } catch (error) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 }
 
 export const config = {
-  matcher: ["/user", "/user/my-all-trip", "/admin", "/another-protected-path"],
+  matcher: [
+    "/user",
+    "/user/my-all-trip",
+    "/user/change-password",
+    "/user/request",
+    "/admin",
+    "/admin/user-management",
+    "/admin/change-password",
+    "/admin/trip-management",
+  ],
 };
