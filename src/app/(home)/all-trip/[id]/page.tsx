@@ -76,27 +76,45 @@ const SingleTripPage = () => {
 
       <div className="flex py-9 gap-5 container">
         <div>
-          <Image src={img1} alt="trip" className="rounded-3xl"></Image>
+          <Image
+            src={img1}
+            alt="trip"
+            className="rounded-3xl hover:scale-105 transition-all "
+          />
         </div>
 
         <div>
-          <Image src={img2} alt="trip" className="rounded-3xl"></Image>
+          <Image
+            src={img2}
+            alt="trip"
+            className="rounded-3xl hover:scale-105 transition-all "
+          />
         </div>
 
         <div>
-          <Image src={img3} alt="trip" className="rounded-3xl"></Image>
+          <Image
+            src={img3}
+            alt="trip"
+            className="rounded-3xl hover:scale-105 transition-all "
+          />
         </div>
 
         <div>
-          <Image src={img4} alt="trip" className="rounded-3xl"></Image>
+          <Image
+            src={img4}
+            alt="trip"
+            className="rounded-3xl hover:scale-105 transition-all "
+          />
         </div>
       </div>
 
-      <div className="container flex justify-between items-center shadow-[5px_5px_20px_-10px_rgba(255,255,255,0.3),_-5px_-5px_20px_-10px_rgba(255,255,255,0.3)] my-14 rounded-3xl !px-6 py-14">
-        <p className="text-3xl font-semibold">Host Details</p>
+      <div className="container group flex justify-between items-center shadow-[5px_5px_20px_-10px_rgba(255,255,255,0.3),_-5px_-5px_20px_-10px_rgba(255,255,255,0.3)] my-14 rounded-3xl !px-10 py-14 hover:shadow-[#E8604C] transition-all">
+        <p className="text-3xl font-semibold group-hover:text-primaryColor transition-all">
+          Host Details
+        </p>
         <button
           onClick={() => setIsDialogOpen(true)}
-          className="bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out hover:bg-transparent duration-300"
+          className="bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out hover:bg-transparent duration-300 group-hover:!bg-transparent"
         >
           Book Now Trip
         </button>
