@@ -45,13 +45,7 @@ const AllTripPage: React.FC = () => {
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1); // Reset to first page on new search
-    setUpdate(true);
-  };
-
-  const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
+    setCurrentPage(1);
     setUpdate(true);
   };
 
@@ -81,31 +75,19 @@ const AllTripPage: React.FC = () => {
                   onClick={() => setFilter("all")}
                   className="w-full hover:text-white block cursor-pointer hover:bg-[#e44d36] hover:text-link px-4 py-2 rounded-md"
                 >
-                  All (9)
+                  All
                 </div>
                 <div
                   onClick={() => setFilter("Full Stack")}
                   className="w-full hover:text-white block cursor-pointer hover:bg-[#e44d36] hover:text-link px-4 py-2 rounded-md"
                 >
-                  Full Stack (6)
+                  Filter by Low to High Price
                 </div>
                 <div
                   onClick={() => setFilter("Front End")}
                   className="w-full hover:text-white block cursor-pointer hover:bg-[#e44d36] hover:text-link px-4 py-2 rounded-md"
                 >
-                  Front End (1)
-                </div>
-                <div
-                  onClick={() => setFilter("Freelance")}
-                  className="w-full hover:text-white block cursor-pointer hover:bg-[#e44d36] hover:text-link px-4 py-2 rounded-md"
-                >
-                  Freelance (1)
-                </div>
-                <div
-                  onClick={() => setFilter("New Stack Project")}
-                  className="w-full hover:text-white block cursor-pointer hover:bg-[#e44d36] hover:text-link px-4 py-2 rounded-md"
-                >
-                  New Stack Project (1)
+                  Filter by High to Low Price
                 </div>
               </div>
             </div>

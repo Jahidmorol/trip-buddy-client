@@ -2,11 +2,18 @@
 
 import { getMyDetails } from "@/services/homeDataFetching";
 import { getFromLocalStorage } from "@/utils/local-storage";
-import { createContext, useEffect, useState, ReactNode, Dispatch } from "react";
+import {
+  createContext,
+  useEffect,
+  useState,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 export const UserContext = createContext<{
   data: any | null;
-  setRefetch: Dispatch<React.SetStateAction<boolean>>;
+  setRefetch: Dispatch<SetStateAction<boolean>>;
   isLoading: boolean;
 } | null>(null);
 
@@ -20,7 +27,6 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true);
     try {
       const data = await getMyDetails();
-
       setData(data?.data);
       setIsLoading(false);
     } catch (error) {
@@ -31,6 +37,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchUser();
+    setRefetch(false);
   }, [refetch, accessToken]);
 
   const userInfo = {

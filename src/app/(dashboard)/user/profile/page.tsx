@@ -34,11 +34,13 @@ const UserProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const userContext = useContext(UserContext);
 
+  // Define default values unconditionally
   const defaultValues = {
     email: userContext?.data?.email || "",
     username: userContext?.data?.name || "",
   };
 
+  // Initialize the form with default values
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
@@ -47,6 +49,7 @@ const UserProfile = () => {
   const email = form.watch("email");
   const name = form.watch("username");
 
+  // Use effect to reset the form when userContext.data changes
   useEffect(() => {
     if (userContext?.data) {
       form.reset({
@@ -54,7 +57,7 @@ const UserProfile = () => {
         username: userContext.data.name,
       });
     }
-  }, [userContext?.data]);
+  }, [userContext?.data, form]);
 
   useEffect(() => {
     const userNameRegex = /^[a-zA-Z0-9_]+$/;
@@ -81,6 +84,13 @@ const UserProfile = () => {
     }
   }, [email, form]);
 
+  // Check for userContext and its values after defining hooks
+  if (!userContext) {
+    return null;
+  }
+
+  const { setRefetch } = userContext;
+
   const onSubmit = async (
     values: z.infer<typeof formSchema>
   ): Promise<void> => {
@@ -93,9 +103,10 @@ const UserProfile = () => {
         email: values.email,
       };
 
-      updateUserDetails(userData);
+      await updateUserDetails(userData);
 
       toast.success("Your information updated successfully", { id: toastId });
+      setRefetch(true);
       setIsLoading(false);
     } catch (err: any) {
       toast.error(err?.message, { id: toastId });
@@ -103,13 +114,7 @@ const UserProfile = () => {
     }
   };
 
-  if (!userContext) {
-    return null;
-  }
-
-  const { isLoading: loading } = userContext;
-
-  if (loading) {
+  if (userContext.isLoading) {
     return <p>Loading...</p>;
   }
 
