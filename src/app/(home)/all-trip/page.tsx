@@ -7,7 +7,7 @@ import Pagination from "@/components/Pagination/Pagination";
 import { getAllTrips } from "@/services/homeDataFetching";
 import React, { useEffect, useState } from "react";
 
-type Trip = {
+export type Trip = {
   id: string;
   // Add other relevant fields here
 };
