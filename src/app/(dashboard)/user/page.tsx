@@ -1,8 +1,11 @@
 "use client";
 
-import { useForm, FieldValues, SubmitErrorHandler } from "react-hook-form";
+import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { postTrips } from "@/services/userDashboardDataFetching";
+import { toast } from "sonner";
+import { useState } from "react";
 
 const schema = z.object({
   title: z.string().min(1, { message: "Trip Title is required" }),
@@ -11,17 +14,15 @@ const schema = z.object({
   endDate: z.string().min(1, { message: "Trip End Date is required" }),
   description: z.string().min(1, { message: "Description is required" }),
   tripType: z.string().min(1, { message: "Trip Type is required" }),
-  budget: z
-    .string()
-
-    .min(1, { message: "Budget is required" }),
+  budget: z.string().min(1, { message: "Budget is required" }),
   activities: z
     .string()
     .min(1, { message: "Activities are required" })
     .transform((str) => str.split(",").map((activity) => activity.trim())),
-  image: z
-    .instanceof(FileList)
-    .refine((files) => files.length > 0, { message: "Image is required" }),
+  // Remove FileList validation here
+  image: z.any().refine((file) => file instanceof FileList && file.length > 0, {
+    message: "Image is required",
+  }),
 });
 
 const UserPage = () => {
@@ -34,74 +35,64 @@ const UserPage = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitErrorHandler<FieldValues> = async (data) => {
-    console.log(data);
-    reset();
+  const [isLoading, setIsLoading] = useState(false);
 
-    // Submit the form data to your API
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading("Trip post...");
+    setIsLoading(true);
+
+    const formData = new FormData();
+    if (data?.image instanceof FileList) {
+      formData.append("image", data.image[0]);
+    } else {
+      setIsLoading(false);
+      return;
+    }
+
+    const response = await fetch(
+      `https://api.imgbb.com/1/upload?key=654b1e85ae0488c966b1aaf034e8cab2`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const imgResponse = await response.json();
+
+    if (imgResponse && imgResponse.data && imgResponse.data.url) {
+      const updateData = {
+        ...data,
+        budget: Number(data?.budget),
+        image: imgResponse.data.url,
+      };
+
+      const uploadData = await postTrips(updateData);
+      if (uploadData?.success) {
+        toast.success("Trip Post successfully!", { id: toastId });
+        setIsLoading(false);
+        reset();
+      }
+    } else {
+      setIsLoading(false);
+    }
   };
 
   const tripTypes = [
-    {
-      label: "Adventure",
-      value: "adventure",
-    },
-    {
-      label: "Beach vacation",
-      value: "beachvacation",
-    },
-    {
-      label: "Cultural exploration",
-      value: "culturalexploration",
-    },
-    {
-      label: "Backpacking",
-      value: "backpacking",
-    },
-    {
-      label: "Road trip",
-      value: "roadtrip",
-    },
-    {
-      label: "Safari",
-      value: "safari",
-    },
-    {
-      label: "Ski trip",
-      value: "skitrip",
-    },
-    {
-      label: "City break",
-      value: "citybreak",
-    },
-    {
-      label: "Cruise",
-      value: "cruise",
-    },
-    {
-      label: "Family vacation",
-      value: "familyvacation",
-    },
-    {
-      label: "Hiking expedition",
-      value: "hikingexpedition",
-    },
-    {
-      label: "Luxury getaway",
-      value: "luxurygetaway",
-    },
-    {
-      label: "Solo travel",
-      value: "solotravel",
-    },
-    {
-      label: "Volunteering trip",
-      value: "volunteeringtrip",
-    },
-    {
-      label: "Wellness retreat",
-      value: "wellnessretreat",
-    },
+    { label: "Adventure", value: "adventure" },
+    { label: "Beach vacation", value: "beachvacation" },
+    { label: "Cultural exploration", value: "culturalexploration" },
+    { label: "Backpacking", value: "backpacking" },
+    { label: "Road trip", value: "roadtrip" },
+    { label: "Safari", value: "safari" },
+    { label: "Ski trip", value: "skitrip" },
+    { label: "City break", value: "citybreak" },
+    { label: "Cruise", value: "cruise" },
+    { label: "Family vacation", value: "familyvacation" },
+    { label: "Hiking expedition", value: "hikingexpedition" },
+    { label: "Luxury getaway", value: "luxurygetaway" },
+    { label: "Solo travel", value: "solotravel" },
+    { label: "Volunteering trip", value: "volunteeringtrip" },
+    { label: "Wellness retreat", value: "wellnessretreat" },
   ];
 
   return (
@@ -268,7 +259,7 @@ const UserPage = () => {
           type="submit"
           className="bg-[#E8604C] text-white hover:bg-black border border-black hover:border-white transition-all font-semibold px-12 mt-8 text-lg py-2 rounded mb-16"
         >
-          Save changes
+          {isLoading ? "Trip Post..." : "Save changes"}
         </button>
       </form>
     </div>
