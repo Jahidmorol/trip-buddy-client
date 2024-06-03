@@ -72,6 +72,27 @@ export const getMyDetails = async () => {
   return data;
 };
 
+export const createTripRequest = async (id: string) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trip/request/${id}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${accessToken}`,
+      },
+      credentials: "include",
+    }
+  );
+  if (!res.ok) {
+    throw new Error("data not fetch!");
+  }
+
+  const data = await res.json();
+
+  return data;
+};
+
 export const updateUserDetails = async (data: any) => {
   if (!accessToken) {
     throw new Error("No authentication token found");

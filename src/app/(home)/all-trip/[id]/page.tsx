@@ -1,50 +1,63 @@
 "use client";
 
-import { getSingleTrips } from "@/services/homeDataFetching";
+import { createTripRequest, getSingleTrips } from "@/services/homeDataFetching";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { FaAnglesRight } from "react-icons/fa6";
+import React, { useEffect, useRef, useState } from "react";
+import { FaAnglesRight, FaCross, FaFlag } from "react-icons/fa6";
 import img1 from "/public/gallery/g1.jpg";
 import img2 from "/public/gallery/g2.jpg";
 import img3 from "/public/gallery/g6.jpg";
 import img4 from "/public/gallery/g4.jpg";
 import * as Dialog from "@radix-ui/react-dialog";
-import { FaFlag } from "react-icons/fa";
+import { toast } from "sonner";
+import { ImCross } from "react-icons/im";
 
 const SingleTripPage = () => {
   const { id } = useParams();
   const [singleTrip, setSingleTrip] = useState<any>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const getData = async () => {
       try {
         const data = await getSingleTrips(id as string);
         setSingleTrip(data?.data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+      } catch (error) {}
     };
     getData();
   }, [id]);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const target = event.target as typeof event.target & {
       name: { value: string };
-      email: { value: string };
-      budget: { value: string };
-      location: { value: string };
+      destination: { value: string };
+      startDate: { value: string };
+      endDate: { value: string };
     };
     const data = {
       name: target.name.value,
-      email: target.email.value,
-      budget: target.budget.value,
-      location: target.location.value,
+      destination: target.destination.value,
+      startDate: target.startDate.value,
+      endDate: target.endDate.value,
     };
-    console.log("Form Data:", data);
-    // You can now send this data to your server or handle it as needed
+
+    const res = await createTripRequest(id as string);
+
+    if (res.success) {
+      toast.success("Trip request sent successfully!");
+    }
+
+    setIsDialogOpen(false);
   };
+
+  useEffect(() => {
+    if (isDialogOpen && closeButtonRef.current) {
+      closeButtonRef.current.focus();
+    }
+  }, [isDialogOpen]);
 
   return (
     <div>
@@ -82,7 +95,7 @@ const SingleTripPage = () => {
       <div className="container flex justify-between items-center shadow-[5px_5px_20px_-10px_rgba(255,255,255,0.3),_-5px_-5px_20px_-10px_rgba(255,255,255,0.3)] my-14 rounded-3xl !px-6 py-14">
         <p className="text-3xl font-semibold">Host Details</p>
         <button
-          onClick={() => document.getElementById("dialog-trigger")?.click()}
+          onClick={() => setIsDialogOpen(true)}
           className="bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out hover:bg-transparent duration-300"
         >
           Book Now Trip
@@ -141,7 +154,7 @@ const SingleTripPage = () => {
         </div>
       </div>
       <button
-        onClick={() => document.getElementById("dialog-trigger")?.click()}
+        onClick={() => setIsDialogOpen(true)}
         className="bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out hover:bg-transparent duration-300 block mx-auto w-fit mb-9"
       >
         Book Now Trip
@@ -192,29 +205,37 @@ const SingleTripPage = () => {
       <div>
         <button
           className="bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out hover:bg-transparent duration-300 block mx-auto w-fit mb-9"
-          onClick={() => document.getElementById("dialog-trigger")?.click()}
+          onClick={() => setIsDialogOpen(true)}
         >
           Book Now Trip
         </button>
 
-        <Dialog.Root>
+        <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <Dialog.Trigger asChild>
             <button id="dialog-trigger" style={{ display: "none" }}>
               Open Dialog
             </button>
           </Dialog.Trigger>
           <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-70" />
-          <Dialog.Content className="fixed top-1/2 left-1/2 bg-white rounded transform -translate-x-1/2 -translate-y-1/2 shadow-lg sm:max-w-[550px] md:w-[700px] p-4 mx-auto w-[95%]">
-            <Dialog.Title className="text-black text-lg font-semibold">
-              Trip Request{" "}
-            </Dialog.Title>
-            <Dialog.Description>
-              Make changes to your profile here. Click save when done.
+          <Dialog.Content className="fixed z-50 top-2/4 left-2/4 max-h-[85vh] w-[90vw] max-w-lg -translate-x-2/4 -translate-y-2/4 transform rounded-lg bg-white p-6 focus:outline-none">
+            <div className="flex items-center justify-between">
+              <Dialog.Title className="text-2xl text-black font-bold">
+                Trip Request
+              </Dialog.Title>
+              <ImCross
+                onClick={() => setIsDialogOpen(false)}
+                size={20}
+                className="mb-4 cursor-pointer"
+                color="#000"
+              />
+            </div>
+            <Dialog.Description className="text-gray-800 pb-6 font-semibold">
+              I travel so my life isn’t disrupted by routine.
             </Dialog.Description>
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-1">
                 <label htmlFor="name" className="text-black">
-                  Your Name
+                  Trip Name
                 </label>
                 <input
                   className="block w-full rounded-xl text-black border-2 border-gray-400 p-3 shadow-sm placeholder:font-semibold placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:font-semibold focus:ring-1 focus:ring-[#e44d36] sm:text-sm"
@@ -222,63 +243,53 @@ const SingleTripPage = () => {
                   name="name"
                   autoComplete="off"
                   id="name"
-                  value={"name"}
-                  required
+                  value={singleTrip?.title}
                 />
               </div>
-              <div className="flex flex-col gap-1 mt-2">
-                <label htmlFor="email" className="text-black">
-                  Your Email
+              <div className="flex flex-col gap-1 mt-4">
+                <label htmlFor="destination" className="text-black">
+                  Trip Destination
                 </label>
                 <input
                   className="block w-full rounded-xl text-black border-2 border-gray-400 p-3 shadow-sm placeholder:font-semibold placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:font-semibold focus:ring-1 focus:ring-[#e44d36] sm:text-sm"
-                  type="email"
-                  name="email"
-                  id="email"
+                  type="destination"
+                  name="destination"
+                  id="destination"
                   autoComplete="off"
-                  value={"name"}
-                  required
+                  value={singleTrip?.destination}
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <label htmlFor="email" className="text-right col-span-1">
-                  Email
+              <div className="flex flex-col gap-1 mt-4">
+                <label htmlFor="startDate" className="text-black">
+                  Trip Start Date
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="col-span-3 p-2 border"
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <label htmlFor="budget" className="text-right col-span-1">
-                  Budget
-                </label>
-                <input
+                  className="block w-full rounded-xl text-black border-2 border-gray-400 p-3 shadow-sm placeholder:font-semibold placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:font-semibold focus:ring-1 focus:ring-[#e44d36] sm:text-sm"
                   type="text"
-                  name="budget"
-                  id="budget"
-                  className="col-span-3 p-2 border"
-                  required
+                  name="startDate"
+                  id="startDate"
+                  autoComplete="off"
+                  value={singleTrip?.startDate}
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <label htmlFor="location" className="text-right col-span-1">
-                  Location
+              <div className="flex flex-col gap-1 mt-4">
+                <label htmlFor="endDate" className="text-black">
+                  Trip End Date
                 </label>
                 <input
+                  className="block w-full rounded-xl text-black border-2 border-gray-400 p-3 shadow-sm placeholder:font-semibold placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:font-semibold focus:ring-1 focus:ring-[#e44d36] sm:text-sm"
                   type="text"
-                  name="location"
-                  id="location"
-                  className="col-span-3 p-2 border"
-                  required
+                  name="endDate"
+                  id="endDate"
+                  autoComplete="off"
+                  value={singleTrip?.endDate}
                 />
               </div>
+
               <button
                 type="submit"
-                className="bg-[#E8604C] text-white text-sm px-4 py-2 mt-4 rounded"
+                className="bg-[#E8604C] text-white hover:bg-black transition-all font-semibold px-12 mt-8 text-lg py-2 rounded"
+                ref={closeButtonRef}
               >
                 Save changes
               </button>
