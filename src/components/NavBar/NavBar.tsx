@@ -31,7 +31,6 @@ const NavBar = () => {
     setRefetch: () => {},
     isLoading: false,
   };
-  console.log(data);
 
   const router = useRouter();
 
