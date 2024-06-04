@@ -6,9 +6,11 @@ import React, { useEffect, useState } from "react";
 import SingleCard from "../Card/SingleCard";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import LoadingComponent from "../Loading/Loading";
 
 const HomePageCard = () => {
   const [allTrips, setTrips] = useState<Trip[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [update, setUpdate] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -17,13 +19,15 @@ const HomePageCard = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const getData = async () => {
       try {
         const data = await getAllTrips(queryParams);
         const fetchedTrips = data?.data?.data ?? [];
         setTrips(fetchedTrips);
+        setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        setIsLoading(false);
       }
     };
     getData();
@@ -31,10 +35,10 @@ const HomePageCard = () => {
   }, [update, searchQuery]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-
+    setIsLoading(false), setSearchQuery(e.target.value);
     setUpdate(true);
   };
+
   return (
     <div>
       <div className="flex flex-col md:flex-row justify-between items-center pt-16">
@@ -49,11 +53,15 @@ const HomePageCard = () => {
           onChange={handleSearchChange}
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14 mx-auto">
-        {allTrips?.map((card: any) => (
-          <SingleCard card={card} key={card?.id} />
-        ))}
-      </div>
+      {isLoading ? (
+        <LoadingComponent />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14 mx-auto">
+          {allTrips?.map((card: any) => (
+            <SingleCard card={card} key={card?.id} />
+          ))}
+        </div>
+      )}
       <div className="flex justify-center items-center">
         <Link href={"/all-trip"}>
           <Button

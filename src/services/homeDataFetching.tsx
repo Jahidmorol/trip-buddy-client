@@ -7,10 +7,6 @@ const accessToken = cookies().get("accessToken")?.value || "";
 export const getAllTrips = async (queryParams: any) => {
   const params = new URLSearchParams(queryParams);
 
-  if (!accessToken) {
-    throw new Error("No authentication token found");
-  }
-
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trips/?${params}`,
     {
@@ -22,9 +18,6 @@ export const getAllTrips = async (queryParams: any) => {
       credentials: "include",
     }
   );
-  if (!res.ok) {
-    throw new Error("data not fetch!");
-  }
 
   const data = await res.json();
 
@@ -32,10 +25,6 @@ export const getAllTrips = async (queryParams: any) => {
 };
 
 export const getSingleTrips = async (id: string) => {
-  if (!accessToken) {
-    throw new Error("No authentication token found");
-  }
-
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trips/${id}`,
     {
@@ -47,9 +36,6 @@ export const getSingleTrips = async (id: string) => {
       credentials: "include",
     }
   );
-  if (!res.ok) {
-    throw new Error("data not fetch!");
-  }
 
   const data = await res.json();
 
@@ -68,9 +54,6 @@ export const getMyDetails = async () => {
       credentials: "include",
     }
   );
-  if (!res.ok) {
-    throw new Error("data not fetch!");
-  }
 
   const data = await res.json();
 
@@ -89,9 +72,6 @@ export const createTripRequest = async (id: string) => {
       credentials: "include",
     }
   );
-  if (!res.ok) {
-    throw new Error("data not fetch!");
-  }
 
   const data = await res.json();
 
@@ -99,9 +79,6 @@ export const createTripRequest = async (id: string) => {
 };
 
 export const updateUserDetails = async (data: any) => {
-  if (!accessToken) {
-    throw new Error("No authentication token found");
-  }
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/profile`,
     {

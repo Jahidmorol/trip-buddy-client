@@ -2,6 +2,7 @@
 
 import TripHeroSection from "@/components/BannerSection/TripHeroSection";
 import SingleCard from "@/components/Card/SingleCard";
+import LoadingComponent from "@/components/Loading/Loading";
 import Pagination from "@/components/Pagination/Pagination";
 
 import { getAllTrips } from "@/services/homeDataFetching";
@@ -21,8 +22,9 @@ const AllTripPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const itemsPerPage = 2;
+  const itemsPerPage = 9;
 
   const queryParams = {
     limit: itemsPerPage,
@@ -33,14 +35,16 @@ const AllTripPage: React.FC = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const getData = async () => {
       try {
         const data = await getAllTrips(queryParams);
         const fetchedTrips = data?.data?.data ?? [];
         setTrips(fetchedTrips);
         setTotalPages(data?.data?.meta?.total / itemsPerPage);
+        setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        setIsLoading(false);
       }
     };
     getData();
@@ -110,11 +114,15 @@ const AllTripPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="container grid grid-cols-1 md:grid-cols-3 gap-y-4 mt-14 mb-12">
-        {allTrips?.map((card) => (
-          <SingleCard card={card} key={card.id} />
-        ))}
-      </div>
+      {isLoading ? (
+        <LoadingComponent />
+      ) : (
+        <div className="container grid grid-cols-1 md:grid-cols-3 gap-6 mt-14 mx-auto">
+          {allTrips?.map((card: any) => (
+            <SingleCard card={card} key={card?.id} />
+          ))}
+        </div>
+      )}
       <div className="flex justify-center items-center pb-16">
         <Pagination
           currentPage={currentPage}
