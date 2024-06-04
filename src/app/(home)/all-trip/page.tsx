@@ -14,6 +14,8 @@ export type Trip = {
 
 const AllTripPage: React.FC = () => {
   const [filter, setFilter] = useState<string>("Filter");
+  const [sortBy, setSortBy] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<string>("");
   const [allTrips, setTrips] = useState<Trip[]>([]);
   const [update, setUpdate] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -26,6 +28,8 @@ const AllTripPage: React.FC = () => {
     limit: itemsPerPage,
     page: currentPage,
     searchTerm: searchQuery,
+    sortBy,
+    sortOrder,
   };
 
   useEffect(() => {
@@ -41,7 +45,7 @@ const AllTripPage: React.FC = () => {
     };
     getData();
     setUpdate(false);
-  }, [update, searchQuery, currentPage]);
+  }, [update, searchQuery, currentPage, sortOrder, sortBy]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -72,19 +76,31 @@ const AllTripPage: React.FC = () => {
               </button>
               <div className="absolute z-[99] top-[55px] translate-x-[-50%] rounded-md overflow-hidden shadow-lg min-w-[200px] w-max peer-focus:visible peer-focus:opacity-100 opacity-0 invisible duration-200 bg-gray-100 border border-dimmed text-xs md:text-sm">
                 <div
-                  onClick={() => setFilter("all")}
+                  onClick={() => {
+                    setFilter("See All Trips");
+                    setSortBy("");
+                    setSortOrder("");
+                  }}
                   className="w-full hover:text-white block cursor-pointer hover:bg-[#e44d36] hover:text-link px-4 py-2 rounded-md"
                 >
-                  All
+                  See All Trips
                 </div>
                 <div
-                  onClick={() => setFilter("Full Stack")}
+                  onClick={() => {
+                    setFilter("Filter by Low to High Price");
+                    setSortBy("budget");
+                    setSortOrder("asc");
+                  }}
                   className="w-full hover:text-white block cursor-pointer hover:bg-[#e44d36] hover:text-link px-4 py-2 rounded-md"
                 >
                   Filter by Low to High Price
                 </div>
                 <div
-                  onClick={() => setFilter("Front End")}
+                  onClick={() => {
+                    setFilter("Filter by High to Low Price");
+                    setSortBy("budget");
+                    setSortOrder("desc");
+                  }}
                   className="w-full hover:text-white block cursor-pointer hover:bg-[#e44d36] hover:text-link px-4 py-2 rounded-md"
                 >
                   Filter by High to Low Price
