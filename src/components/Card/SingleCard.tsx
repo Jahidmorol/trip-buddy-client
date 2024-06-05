@@ -5,8 +5,8 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 const SingleCard = ({ card }: any) => {
   return (
-    <div className="w-[400px] group bg-white text-black group-hover:shadow-[#E8604C] h-[450px] relative">
-      <div className="h-[200px] overflow-hidden">
+    <div className="w-[400px] group bg-white text-black group-hover:shadow-[#E8604C] h-[480px] relative">
+      <div className="h-[230px] overflow-hidden">
         <Image
           className="w-full h-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110 cursor-pointer"
           src={card?.image}

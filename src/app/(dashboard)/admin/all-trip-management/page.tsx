@@ -15,19 +15,31 @@ import Link from "next/link";
 import LoadingComponent from "@/components/Loading/Loading";
 import { getAllTrips } from "@/services/homeDataFetching";
 import { usePathname } from "next/navigation";
+import Pagination from "@/components/Pagination/Pagination";
 
 const AllTripManagement = () => {
   const [allTrips, setAllTrips] = useState<any>([]);
   const [update, setUpdate] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+
   const pathname = usePathname();
+  const itemsPerPage = 9;
+
+  const queryParams = {
+    limit: itemsPerPage,
+    page: currentPage,
+  };
 
   useEffect(() => {
     setIsLoading(true);
     const getData = async () => {
       try {
-        const data = await getAllTrips(null);
+        const data = await getAllTrips(queryParams);
+
         setAllTrips(data?.data?.data);
+        setTotalPages(Math.ceil(data?.data?.meta?.total / itemsPerPage));
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -35,7 +47,7 @@ const AllTripManagement = () => {
     };
     getData();
     setUpdate(false);
-  }, [update]);
+  }, [update, totalPages, currentPage]);
 
   const handleDeleteTrip = async (tripId: string) => {
     const updateData = await deleteTrip(tripId);
@@ -78,43 +90,52 @@ const AllTripManagement = () => {
       {isLoading ? (
         <LoadingComponent />
       ) : (
-        <div className="border h-full">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Trip Name</TableHead>
-                <TableHead>Trip Destination</TableHead>
-                <TableHead>Trip Budget</TableHead>
-                <TableHead>Trip Start Date</TableHead>
-                <TableHead>Trip End Date</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {allTrips?.map((trip: any) => (
-                <TableRow key={trip?.id}>
-                  <TableCell className="font-medium w-[170px]">
-                    {trip?.title}
-                  </TableCell>
-                  <TableCell>{trip?.destination}</TableCell>
-                  <TableCell>$ {trip?.budget}</TableCell>
-
-                  <TableCell>{trip?.startDate}</TableCell>
-                  <TableCell>{trip?.endDate}</TableCell>
-
-                  <TableCell>
-                    <p
-                      onClick={() => handleDeleteTrip(trip?.id)}
-                      className="text-center py-2 text-sm cursor-pointer hover:bg-red-700 bg-red-600 hover:text-white border text-white transition-all"
-                    >
-                      Delete Trip
-                    </p>
-                  </TableCell>
+        <>
+          <div className="border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Trip Name</TableHead>
+                  <TableHead>Trip Destination</TableHead>
+                  <TableHead>Trip Budget</TableHead>
+                  <TableHead>Trip Start Date</TableHead>
+                  <TableHead>Trip End Date</TableHead>
+                  <TableHead>Status</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+              </TableHeader>
+              <TableBody>
+                {allTrips?.map((trip: any) => (
+                  <TableRow key={trip?.id}>
+                    <TableCell className="font-medium w-[170px]">
+                      {trip?.title}
+                    </TableCell>
+                    <TableCell>{trip?.destination}</TableCell>
+                    <TableCell>$ {trip?.budget}</TableCell>
+
+                    <TableCell>{trip?.startDate}</TableCell>
+                    <TableCell>{trip?.endDate}</TableCell>
+
+                    <TableCell>
+                      <p
+                        onClick={() => handleDeleteTrip(trip?.id)}
+                        className="text-center py-2 text-sm cursor-pointer hover:bg-red-700 bg-red-600 hover:text-white border text-white transition-all"
+                      >
+                        Delete Trip
+                      </p>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex justify-center items-center pb-16">
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPage={totalPages}
+            />
+          </div>
+        </>
       )}
     </div>
   );
