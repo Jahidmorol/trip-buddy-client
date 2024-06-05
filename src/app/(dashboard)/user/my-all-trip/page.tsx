@@ -1,14 +1,25 @@
 "use client";
 
-import SingleCard from "@/components/Card/SingleCard";
 import LoadingComponent from "@/components/Loading/Loading";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { deleteTrip } from "@/services/adminManagement";
 import { getAllMyTrips } from "@/services/userDashboardDataFetching";
+
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const MyALLTripPage = () => {
   const [allMyTrips, setMyTrips] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -22,7 +33,18 @@ const MyALLTripPage = () => {
       }
     };
     getData();
-  }, []);
+  }, [update]);
+
+  const handleDeleteTrip = async (tripId: string) => {
+    const updateData = await deleteTrip(tripId);
+
+    if (updateData?.success) {
+      toast.success("Trip Delete update successful!");
+      setUpdate(true);
+    }
+  };
+
+  console.log(allMyTrips);
 
   return (
     <div className="w-full">
@@ -44,10 +66,49 @@ const MyALLTripPage = () => {
               You have not post yet
             </h1>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-14 mb-24">
-              {allMyTrips?.map((card: any) => (
-                <SingleCard card={card} key={card?.id} />
-              ))}
+            <div className="border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Trip Title</TableHead>
+                    <TableHead>Trip Destination</TableHead>
+                    <TableHead>Trip Start Date</TableHead>
+                    <TableHead>Trip End Date</TableHead>
+                    <TableHead className="text-center w-[160px]">
+                      Action
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {allMyTrips?.map((trip: any) => (
+                    <TableRow key={trip?.id}>
+                      <TableCell className="font-medium w-[170px]">
+                        {trip?.title}
+                      </TableCell>
+                      <TableCell>{trip?.destination}</TableCell>
+                      <TableCell>{trip?.startDate}</TableCell>
+                      <TableCell>{trip?.endDate}</TableCell>
+                      <TableCell className="flex items-center justify-center gap-4 ">
+                        <Link href={`/user/edit-my-trip/${trip?.id}`}>
+                          <button
+                            type="button"
+                            className={`bg-green-600 inline-flex justify-center items-center w-16 py-2 text-sm font-medium text-white  hover:bg-green-700 focus:outline-none focus:bg-gray-700`}
+                          >
+                            Edit
+                          </button>
+                        </Link>
+
+                        <button
+                          onClick={() => handleDeleteTrip(trip?.id)}
+                          className={`inline-flex justify-center items-center w-16 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:bg-gray-700`}
+                        >
+                          Delete
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           )}
         </>

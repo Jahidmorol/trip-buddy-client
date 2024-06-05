@@ -1,104 +1,74 @@
 "use client";
 
-import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { postTrips } from "@/services/userDashboardDataFetching";
-import { toast } from "sonner";
-import { useState } from "react";
+import { getSingleTrips, updateTripDetails } from "@/services/homeDataFetching";
 import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { tripTypes } from "../../page";
+import LoadingComponent from "@/components/Loading/Loading";
 
-const schema = z.object({
-  title: z.string().min(1, { message: "Trip Title is required" }),
-  destination: z.string().min(1, { message: "Trip Destination is required" }),
-  startDate: z.string().min(1, { message: "Trip Start Date is required" }),
-  endDate: z.string().min(1, { message: "Trip End Date is required" }),
-  description: z.string().min(1, { message: "Description is required" }),
-  tripType: z.string().min(1, { message: "Trip Type is required" }),
-  budget: z.string().min(1, { message: "Budget is required" }),
-  activities: z
-    .string()
-    .min(1, { message: "Activities are required" })
-    .transform((str) => str.split(",").map((activity) => activity.trim())),
-  // Remove FileList validation here
-  image: z.any().refine((file) => file instanceof FileList && file.length > 0, {
-    message: "Image is required",
-  }),
-});
+const EditMyTripPage = () => {
+  const { id } = useParams();
+  const [singleTrip, setSingleTrip] = useState<any>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-export const tripTypes = [
-  { label: "Adventure", value: "adventure" },
-  { label: "Beach vacation", value: "beachvacation" },
-  { label: "Cultural exploration", value: "culturalexploration" },
-  { label: "Backpacking", value: "backpacking" },
-  { label: "Road trip", value: "roadtrip" },
-  { label: "Safari", value: "safari" },
-  { label: "Ski trip", value: "skitrip" },
-  { label: "City break", value: "citybreak" },
-  { label: "Cruise", value: "cruise" },
-  { label: "Family vacation", value: "familyvacation" },
-  { label: "Hiking expedition", value: "hikingexpedition" },
-  { label: "Luxury getaway", value: "luxurygetaway" },
-  { label: "Solo travel", value: "solotravel" },
-  { label: "Volunteering trip", value: "volunteeringtrip" },
-  { label: "Wellness retreat", value: "wellnessretreat" },
-];
-const UserPage = () => {
+  const defaultValues = {
+    title: singleTrip?.title,
+    destination: singleTrip?.destination,
+    startDate: singleTrip?.startDate,
+    endDate: singleTrip?.endDate,
+    tripType: singleTrip?.tripType,
+    budget: singleTrip?.budget,
+    activities: singleTrip?.activities,
+    description: singleTrip?.description,
+  };
+
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
-  });
+    reset,
+  } = useForm({ defaultValues });
 
-  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(true);
+    const getData = async () => {
+      try {
+        const data = await getSingleTrips(id as string);
+        setSingleTrip(data?.data);
+        reset(data?.data);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
+    };
+    getData();
+  }, [id, reset]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const toastId = toast.loading("Trip post...");
+    const toastId = toast.loading("Updating trip...");
     setIsLoading(true);
 
-    const formData = new FormData();
-    if (data?.image instanceof FileList) {
-      formData.append("image", data.image[0]);
-    } else {
+    const uploadData = await updateTripDetails(id as string, data);
+
+    if (uploadData?.success) {
+      toast.success("Trip Post successfully!", { id: toastId });
       setIsLoading(false);
-      return;
-    }
-
-    const response = await fetch(
-      `https://api.imgbb.com/1/upload?key=654b1e85ae0488c966b1aaf034e8cab2`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    const imgResponse = await response.json();
-
-    if (imgResponse && imgResponse.data && imgResponse.data.url) {
-      const updateData = {
-        ...data,
-        budget: Number(data?.budget),
-        image: imgResponse.data.url,
-      };
-
-      const uploadData = await postTrips(updateData);
-      if (uploadData?.success) {
-        toast.success("Trip Post successfully!", { id: toastId });
-        setIsLoading(false);
-        reset();
-      }
-    } else {
-      setIsLoading(false);
+      router.push("/user/my-all-trip");
     }
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <div className="w-full">
       <div className="flex justify-between items-center py-8">
-        <h1 className="text-3xl font-semibold text-center">Post Trip</h1>
+        <h1 className="text-3xl font-semibold text-center">Edit Trip</h1>
         <Link
           className="text-primaryColor underline text-lg hover:text-blue-600 transition-all"
           href={"/"}
@@ -106,6 +76,7 @@ const UserPage = () => {
           Back To Home
         </Link>
       </div>
+
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <div className="flex flex-col md:flex-row items-center gap-4 w-full">
           <div className="flex flex-col gap-1 w-full">
@@ -187,7 +158,7 @@ const UserPage = () => {
               {...register("tripType")}
             >
               <option value="">Select A Trip Type</option>
-              {tripTypes.map((type, index) => (
+              {tripTypes?.map((type, index) => (
                 <option key={index} value={type?.value}>
                   {type?.label}
                 </option>
@@ -229,7 +200,7 @@ const UserPage = () => {
               id="activities"
             />
           </div>
-          <div className="flex flex-col gap-1 w-full">
+          {/* <div className="flex flex-col gap-1 w-full">
             <label htmlFor="image">Upload Trip Image </label>
             <input
               className={`${
@@ -244,7 +215,7 @@ const UserPage = () => {
               }
               id="image"
             />
-          </div>
+          </div> */}
         </div>
 
         <div className="flex flex-col gap-1 mt-4">
@@ -267,11 +238,11 @@ const UserPage = () => {
           type="submit"
           className="bg-[#E8604C] text-white hover:bg-black border border-black hover:border-white transition-all font-semibold px-12 mt-8 text-lg py-2 rounded mb-16"
         >
-          {isLoading ? "Trip Post..." : "Save changes"}
+          {isLoading ? "Trip Updating..." : "Update Trip"}
         </button>
       </form>
     </div>
   );
 };
 
-export default UserPage;
+export default EditMyTripPage;
