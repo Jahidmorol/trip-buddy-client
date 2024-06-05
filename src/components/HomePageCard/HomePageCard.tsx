@@ -14,7 +14,10 @@ const HomePageCard = () => {
   const [update, setUpdate] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  const itemsPerPage = 9;
+
   const queryParams = {
+    limit: itemsPerPage,
     searchTerm: searchQuery,
   };
 

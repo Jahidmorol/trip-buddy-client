@@ -1,9 +1,7 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Button } from "../ui/button";
-import { GrClose } from "react-icons/gr";
 import Link from "next/link";
-import { FaBars, FaUser, FaUserAlt } from "react-icons/fa";
 import {
   Tooltip,
   TooltipContent,
@@ -15,14 +13,14 @@ import { UserContext } from "@/UserProvider/UserProvider";
 import { useRouter } from "next/navigation";
 
 const DashboardNavBar = () => {
-  const [isSidebarMenuOpen, setIsSidebarMenuOpen] = useState(false);
   const userContext = useContext(UserContext);
   const router = useRouter();
-  const { data, setRefetch, isLoading } = userContext || {
+  const { data } = userContext || {
     data: null,
     setRefetch: () => {},
     isLoading: false,
   };
+
   const handleLogout = () => {
     deleteCookie("accessToken");
     localStorage.removeItem("accessToken");
@@ -65,39 +63,10 @@ const DashboardNavBar = () => {
         </div>
       </div>
       {/* mobil device  */}
-      <FaBars
-        onClick={() => setIsSidebarMenuOpen(true)}
-        fontSize={28}
-        className="cursor-pointer primary-color md:hidden"
-      />
-      <div
-        className={`fixed h-full w-screen md:hidden bg-black/20 top-0 right-0 z-[999] -translate-x-full transition-transform ${
-          isSidebarMenuOpen && "translate-x-0"
-        }`}
-      >
-        <div className="text-white bg-[#121316] flex-col absolute left-0 top-0 h-screen p-6 gap-8 z-[999] min-w-[70%] flex">
-          <div className="flex items-center gap-1">
-            <GrClose
-              onClick={() => setIsSidebarMenuOpen(false)}
-              fontSize={50}
-              className="font-bold primary-color cursor-pointer text-white "
-            />
-
-            <div className="bg-gray-300 h-1 w-full"></div>
-          </div>
-
-          <ul className="pl-11">
-            <li onClick={() => setIsSidebarMenuOpen(false)} className="text-xl">
-              <Link
-                href={"/"}
-                className={`flex items-center gap-3 font-semibold mb-8 text-sm`}
-              >
-                <FaUserAlt fontSize={20} className="primary-color" />
-                profile
-              </Link>
-            </li>
-          </ul>
-        </div>
+      <div className="md:hidden">
+        <h1 className="border flex items-center justify-center transition-all hover:bg-[#EF4444] border-white rounded-full w-10 h-10 text-center uppercase text-lg">
+          {data?.name?.charAt(0)}
+        </h1>
       </div>
     </div>
   );

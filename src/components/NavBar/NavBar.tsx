@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { GrClose } from "react-icons/gr";
 import Link from "next/link";
-import { FaBars, FaUserAlt } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { getFromLocalStorage } from "@/utils/local-storage";
 import { usePathname, useRouter } from "next/navigation";
 import { jwtHelpers } from "@/helpers/jwtHelpers";
@@ -57,8 +57,12 @@ const NavBar = () => {
     localStorage.removeItem("accessToken");
     setToken(null);
     setUser({});
+    if (userContext && userContext.setData) {
+      userContext.setData({});
+    }
     router.refresh();
   };
+
   return (
     <div className="container flex justify-between items-center py-6">
       <Link href="/">

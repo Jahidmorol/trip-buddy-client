@@ -1,15 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import img from "/public/card.jpg";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 
 const SingleCard = ({ card }: any) => {
   return (
-    <div className="w-[400px] group bg-white text-black shadow-[5px_5px_20px_-10px_rgba(255,255,255,0.3),_-5px_-5px_20px_-10px_rgba(255,255,255,0.3)] group-hover:shadow-[#E8604C]">
-      <div className="h-[320px] overflow-hidden">
+    <div className="w-[400px] group bg-white text-black group-hover:shadow-[#E8604C] h-[450px] relative">
+      <div className="h-[200px] overflow-hidden">
         <Image
-          className="w-full h-full object-cover object-center group-hover:scale-105 transition-all "
+          className="w-full h-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110 cursor-pointer"
           src={card?.image}
           width={200}
           height={200}
@@ -34,13 +33,15 @@ const SingleCard = ({ card }: any) => {
         <p className="line-clamp-2 mt-3 mb-6 text-accent text-gray-500">
           {card?.description}
         </p>
-        <Link href={`/all-trip/${card?.id}`}>
-          <button
-            className={`text-[#e44d36] border border-[#e44d36] hover:bg-[#e44d36] hover:text-white py-2 px-20 text-lg font-semibold transition-all duration-200 w-full flex items-center justify-center gap-2`}
-          >
-            Explore Now <FaArrowRightLong className="mt-1" />
-          </button>
-        </Link>
+        <div className="absolute bottom-5 w-[92%]">
+          <Link href={`/all-trip/${card?.id}`}>
+            <button
+              className={`text-[#e44d36] border border-[#e44d36] hover:bg-[#e44d36] hover:text-white py-2 px-20 text-lg font-semibold transition-all duration-200 w-full flex items-center justify-center gap-2`}
+            >
+              Explore Now <FaArrowRightLong className="mt-1" />
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );

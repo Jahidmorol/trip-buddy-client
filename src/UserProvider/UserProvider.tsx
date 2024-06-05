@@ -14,6 +14,7 @@ import {
 export const UserContext = createContext<{
   data: any | null;
   setRefetch: Dispatch<SetStateAction<boolean>>;
+  setData: Dispatch<SetStateAction<any | undefined>>;
   isLoading: boolean;
 } | null>(null);
 
@@ -21,6 +22,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [refetch, setRefetch] = useState(false);
+
   const accessToken = getFromLocalStorage("accessToken");
 
   const fetchUser = async () => {
@@ -42,6 +44,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const userInfo = {
     data,
+    setData,
     setRefetch,
     isLoading,
   };

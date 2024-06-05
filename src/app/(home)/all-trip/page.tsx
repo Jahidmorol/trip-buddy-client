@@ -39,9 +39,10 @@ const AllTripPage: React.FC = () => {
     const getData = async () => {
       try {
         const data = await getAllTrips(queryParams);
+
         const fetchedTrips = data?.data?.data ?? [];
         setTrips(fetchedTrips);
-        setTotalPages(data?.data?.meta?.total / itemsPerPage);
+        setTotalPages(Math.ceil(data?.data?.meta?.total / itemsPerPage));
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);

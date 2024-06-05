@@ -17,6 +17,7 @@ import {
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { passwordChange } from "@/services/passwordChange";
+import Link from "next/link";
 
 const formSchema = z
   .object({
@@ -82,10 +83,16 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="">
-      <h1 className="text-3xl font-semibold text-center pt-4 md:pt-8">
-        Password Change
-      </h1>
+    <div className="w-full">
+      <div className="flex justify-between items-center py-8">
+        <h1 className="text-3xl font-semibold text-center">Password Change</h1>
+        <Link
+          className="text-primaryColor underline text-lg hover:text-blue-600 transition-all"
+          href={"/"}
+        >
+          Back To Home
+        </Link>
+      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="mt-4">
@@ -150,7 +157,7 @@ const ChangePassword = () => {
           </div>
 
           <Button
-            className="w-full text-white font-semibold my-11 border border-[#e44d36] hover:border-black py-6 text-lg !rounded-[9px] overflow-hidden hover:bg-white hover:text-black"
+            className="md:w-[600px] text-white font-semibold my-11 border border-[#e44d36] hover:border-black py-6 text-lg !rounded-[9px] overflow-hidden hover:bg-white hover:text-black"
             variant={"outline"}
             type="submit"
           >

@@ -6,6 +6,7 @@ import * as z from "zod";
 import { postTrips } from "@/services/userDashboardDataFetching";
 import { toast } from "sonner";
 import { useState } from "react";
+import Link from "next/link";
 
 const schema = z.object({
   title: z.string().min(1, { message: "Trip Title is required" }),
@@ -96,8 +97,16 @@ const UserPage = () => {
   ];
 
   return (
-    <div className="pt-4 w-full">
-      <h1 className="text-3xl font-semibold pb-4">Post Travel</h1>
+    <div className="w-full">
+      <div className="flex justify-between items-center py-8">
+        <h1 className="text-3xl font-semibold text-center">Post Trip</h1>
+        <Link
+          className="text-primaryColor underline text-lg hover:text-blue-600 transition-all"
+          href={"/"}
+        >
+          Back To Home
+        </Link>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <div className="flex flex-col md:flex-row items-center gap-4 w-full">
           <div className="flex flex-col gap-1 w-full">

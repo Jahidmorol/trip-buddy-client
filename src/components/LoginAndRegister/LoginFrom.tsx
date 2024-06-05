@@ -14,7 +14,8 @@ import { Input } from "@/components/ui/input";
 import { userLogin } from "@/services/userLogin";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "@/UserProvider/UserProvider";
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -31,11 +32,18 @@ const LoginComponent = () => {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "fo54@gmail.com",
-      password: "12134567890",
-    },
   });
+  const userContext = useContext(UserContext);
+  const {
+    data,
+    setData,
+    setRefetch,
+    isLoading: loading,
+  } = userContext || {
+    data: null,
+    setRefetch: () => {},
+    isLoading: false,
+  };
 
   const setAccessTokenCookie = (token: string): void => {
     document.cookie = `accessToken=${token}; path=/; secure; SameSite=Strict`;
@@ -61,6 +69,7 @@ const LoginComponent = () => {
           toast.success("login successfully!", { id: toastId });
           router.push("/");
           setIsLoading(false);
+          setRefetch(true);
         } else {
           toast.error(userInfo?.errorDetails?.error, { id: toastId });
           setIsLoading(false);

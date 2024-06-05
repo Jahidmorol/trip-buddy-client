@@ -19,6 +19,8 @@ import { toast } from "sonner";
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "@/UserProvider/UserProvider";
 import { updateUserDetails } from "@/services/homeDataFetching";
+import LoadingComponent from "@/components/Loading/Loading";
+import Link from "next/link";
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -115,12 +117,20 @@ const UserProfile = () => {
   };
 
   if (userContext.isLoading) {
-    return <p>Loading...</p>;
+    return <LoadingComponent />;
   }
 
   return (
-    <div className="mt-10">
-      <h1 className="text-3xl font-semibold pb-4">Change your information</h1>
+    <div className="mt-10 w-full">
+      <div className="flex justify-between items-center pb-8 w-full">
+        <h1 className="text-3xl font-semibold">Change your information</h1>
+        <Link
+          className="text-primaryColor underline text-lg hover:text-blue-600 transition-all"
+          href={"/"}
+        >
+          Back To Home
+        </Link>
+      </div>
       <div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -146,7 +156,7 @@ const UserProfile = () => {
                 control={form.control}
                 name="username"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="md:w-[500px]">
                     <FormLabel>Your User Name</FormLabel>
                     <Input
                       type="text"
@@ -160,9 +170,9 @@ const UserProfile = () => {
                 )}
               />
             </div>
-            <div className="border-[3px] border-black mt-6 mx-20 rounded-full" />
+            <div className="border-[3px] md:w-[500px] border-black mt-6  rounded-full" />
             <Button
-              className="w-full text-white my-6 font-semibold border border-[#e44d36] hover:border-black py-5 text-lg hover:bg-white hover:text-black"
+              className="md:w-[500px] rounded-xl text-white my-6 font-semibold border border-[#e44d36] hover:border-black py-5 text-lg hover:bg-white hover:text-black"
               variant={"outline"}
               type="submit"
             >
