@@ -47,11 +47,15 @@ const Sidebar = () => {
           >
             <li>User Management</li>
           </Link>
+
           <Link
             className={`${
-              pathname === "/admin/trip-management" ? "bg-[#e44d36]" : ""
+              pathname === "/admin/all-trip-management" ||
+              pathname === "/admin/all-trip-request-management"
+                ? "bg-[#e44d36]"
+                : ""
             } text-white py-2 px-5 text-lg`}
-            href={"/admin/trip-management"}
+            href={"/admin/all-trip-management"}
           >
             <li>Trip Management</li>
           </Link>

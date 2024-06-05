@@ -93,6 +93,26 @@ export const updateUserRole = async (data: any, id: string) => {
 
   return user;
 };
+export const deleteTrip = async (id: string) => {
+  if (!accessToken) {
+    throw new Error("No authentication token found");
+  }
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/delete-trip/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${accessToken}`,
+      },
+      credentials: "include",
+    }
+  );
+
+  const user = await res.json();
+
+  return user;
+};
 
 export const getAllTripRequest = async () => {
   if (!accessToken) {

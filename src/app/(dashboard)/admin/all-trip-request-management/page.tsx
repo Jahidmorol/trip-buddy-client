@@ -14,18 +14,25 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { toast } from "sonner";
+import Link from "next/link";
+import LoadingComponent from "@/components/Loading/Loading";
+import { usePathname } from "next/navigation";
 
 const TripManagement = () => {
   const [allDates, setAllDates] = useState<any>([]);
   const [update, setUpdate] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const pathname = usePathname();
 
   useEffect(() => {
+    setIsLoading(true);
     const getData = async () => {
       try {
         const data = await getAllTripRequest();
         setAllDates(data?.data);
+        setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching trip data:", error);
+        setIsLoading(false);
       }
     };
     getData();
@@ -49,12 +56,37 @@ const TripManagement = () => {
   };
 
   return (
-    <div>
-      <div className="w-full py-10">
-        <h1 className="text-center text-4xl font-semibold pb-8">
-          All Trip Request
-        </h1>
-        <div className="border">
+    <div className="w-full py-10">
+      <div className="flex justify-between items-center pb-8">
+        <div className="flex items-center gap-4">
+          <Link href={"/admin/all-trip-management"}>
+            <h1 className="text-xl font-semibold w-[100px] text-center hover:text-primaryColor transition-all">
+              All Trip
+            </h1>
+          </Link>
+
+          <Link
+            className={`${
+              pathname === "/admin/all-trip-request-management"
+                ? "bg-red-600 px-4 py-1 hover:bg-red-700 transition-all"
+                : ""
+            }`}
+            href={"/admin/all-trip-request-management"}
+          >
+            <h1 className="text-xl font-semibold">All Trip Request</h1>
+          </Link>
+        </div>
+        <Link
+          className="text-primaryColor underline text-lg hover:text-blue-600 transition-all"
+          href={"/"}
+        >
+          Back To Home
+        </Link>
+      </div>
+      {isLoading ? (
+        <LoadingComponent />
+      ) : (
+        <div className="border h-full">
           <Table>
             <TableHeader>
               <TableRow>
@@ -84,7 +116,15 @@ const TripManagement = () => {
                       <div className="group">
                         <button
                           type="button"
-                          className="inline-flex justify-center items-center w-24 px-4 py-2 text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+                          className={`${
+                            trip?.status?.toUpperCase() === "APPROVED"
+                              ? "!bg-green-600"
+                              : trip?.status?.toUpperCase() === "PENDING"
+                              ? "!bg-blue-600"
+                              : trip?.status?.toUpperCase() === "REJECTED"
+                              ? "!bg-red-600"
+                              : ""
+                          } inline-flex justify-center items-center w-24 px-4 py-2 text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:bg-gray-700`}
                         >
                           {trip?.status}
                         </button>
@@ -134,7 +174,7 @@ const TripManagement = () => {
             </TableBody>
           </Table>
         </div>
-      </div>
+      )}
     </div>
   );
 };

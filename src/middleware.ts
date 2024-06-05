@@ -15,7 +15,8 @@ const AdminRoutes = [
   "/admin",
   "/admin/user-management",
   "/admin/change-password",
-  "/admin/trip-management",
+  "/admin/all-trip-management",
+  "/admin/all-trip-request-management",
 ];
 
 export function middleware(req: NextRequest) {
