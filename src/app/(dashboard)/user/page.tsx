@@ -78,6 +78,7 @@ const UserPage = () => {
     const imgResponse = await response.json();
 
     if (imgResponse && imgResponse.data && imgResponse.data.url) {
+      setIsLoading(true);
       const updateData = {
         ...data,
         budget: Number(data?.budget),
@@ -267,7 +268,7 @@ const UserPage = () => {
           type="submit"
           className="bg-[#E8604C] text-white hover:bg-black border border-black hover:border-white transition-all font-semibold px-12 mt-8 text-lg py-2 rounded mb-16"
         >
-          {isLoading ? "Trip Post..." : "Save changes"}
+          {isLoading ? "Trip Post..." : "Post Trip"}
         </button>
       </form>
     </div>

@@ -119,7 +119,7 @@ export const getAllTripRequest = async () => {
     throw new Error("No authentication token found");
   }
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trip/request/admin`,
+    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trip/request/all-travel-request`,
     {
       method: "GET",
       headers: {

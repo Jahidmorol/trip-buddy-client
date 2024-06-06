@@ -22,8 +22,9 @@ const MyTravelRequestPage = () => {
       try {
         setIsLoading(true);
         const data = await getAllMyTripsRequest();
+        console.log({ data });
 
-        setMyTripsRequest(data?.data);
+        setMyTripsRequest(data?.data?.data);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);

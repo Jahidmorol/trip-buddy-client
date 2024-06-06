@@ -80,7 +80,10 @@ const Sidebar = () => {
           </Link>
           <Link
             className={`${
-              pathname === "/user/my-all-trip" ? "bg-[#e44d36]" : ""
+              pathname === "/user/my-all-trip" ||
+              pathname === "/user/my-all-trip-request"
+                ? "bg-[#e44d36]"
+                : ""
             } text-white py-2 px-5 text-lg`}
             href={"/user/my-all-trip"}
           >
