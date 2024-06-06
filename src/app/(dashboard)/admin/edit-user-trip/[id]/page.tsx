@@ -8,7 +8,8 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import LoadingComponent from "@/components/Loading/Loading";
-export const tripTypes = [
+
+const tripTypes: any = [
   { label: "Adventure", value: "adventure" },
   { label: "Beach vacation", value: "beachvacation" },
   { label: "Cultural exploration", value: "culturalexploration" },

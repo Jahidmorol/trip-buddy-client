@@ -6,8 +6,25 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { tripTypes } from "../../page";
 import LoadingComponent from "@/components/Loading/Loading";
+
+const tripTypes: any = [
+  { label: "Adventure", value: "adventure" },
+  { label: "Beach vacation", value: "beachvacation" },
+  { label: "Cultural exploration", value: "culturalexploration" },
+  { label: "Backpacking", value: "backpacking" },
+  { label: "Road trip", value: "roadtrip" },
+  { label: "Safari", value: "safari" },
+  { label: "Ski trip", value: "skitrip" },
+  { label: "City break", value: "citybreak" },
+  { label: "Cruise", value: "cruise" },
+  { label: "Family vacation", value: "familyvacation" },
+  { label: "Hiking expedition", value: "hikingexpedition" },
+  { label: "Luxury getaway", value: "luxurygetaway" },
+  { label: "Solo travel", value: "solotravel" },
+  { label: "Volunteering trip", value: "volunteeringtrip" },
+  { label: "Wellness retreat", value: "wellnessretreat" },
+];
 
 const EditMyTripPage = () => {
   const { id } = useParams();
@@ -158,7 +175,7 @@ const EditMyTripPage = () => {
               {...register("tripType")}
             >
               <option value="">Select A Trip Type</option>
-              {tripTypes?.map((type, index) => (
+              {tripTypes?.map((type: any, index: any) => (
                 <option key={index} value={type?.value}>
                   {type?.label}
                 </option>

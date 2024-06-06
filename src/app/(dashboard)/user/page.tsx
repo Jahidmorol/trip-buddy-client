@@ -26,7 +26,7 @@ const schema = z.object({
   }),
 });
 
-export const tripTypes = [
+const tripTypes: any = [
   { label: "Adventure", value: "adventure" },
   { label: "Beach vacation", value: "beachvacation" },
   { label: "Cultural exploration", value: "culturalexploration" },
@@ -188,7 +188,7 @@ const UserPage = () => {
               {...register("tripType")}
             >
               <option value="">Select A Trip Type</option>
-              {tripTypes.map((type, index) => (
+              {tripTypes.map((type: any, index: any) => (
                 <option key={index} value={type?.value}>
                   {type?.label}
                 </option>

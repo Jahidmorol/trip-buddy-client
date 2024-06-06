@@ -20,6 +20,7 @@ import g8 from "/public/gallery/g8.jpg";
 import g9 from "/public/gallery/g9.jpg";
 
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 const AboutSection = () => {
   return (
@@ -80,12 +81,14 @@ const AboutSection = () => {
             </span>
             Trusted by more than 80,000 customers
           </p>
-          <Button
-            className="border w-64 font-semibold tracking-wide py-6 text-lg mt-8"
-            variant={"outline"}
-          >
-            Find more trip
-          </Button>
+          <Link href={"/all-trip"}>
+            <Button
+              className="border w-64 font-semibold tracking-wide py-6 text-lg mt-8"
+              variant={"outline"}
+            >
+              Find more trip
+            </Button>
+          </Link>
         </div>
       </div>
       <div className="container py-10">
@@ -96,7 +99,10 @@ const AboutSection = () => {
           Why Travel with TripBuddy?
         </h1>
         <div className="flex flex-col md:flex-row py-16 gap-4">
-          <div className="border p-4 border-[#e8604c] ">
+          <div
+            className="border p-4 border-[#e8604c]"
+            style={{ transition: "box-shadow 0.3s ease" }}
+          >
             <Image className="mx-auto" src={icon1} alt="image" />
             <h2 className="text-center text-2xl font-semibold py-2">
               Best Price Granted
@@ -106,6 +112,7 @@ const AboutSection = () => {
               eiusmod incididunt.
             </p>
           </div>
+
           <div className="border p-4 border-[#e8604c] ">
             <Image className="mx-auto" src={icon2} alt="image" />
             <h2 className="text-center pb-2 text-2xl font-semibold py-2">
@@ -136,19 +143,69 @@ const AboutSection = () => {
           Our Image Gallery
         </h1>
         <div className="flex flex-wrap gap-6 pb-20">
-          <Image className="w-[400px] h-[350px]" src={g3} alt="image" />
-
-          <Image className="w-[400px] h-[350px]" src={g1} alt="image" />
-          <Image className="w-[400px] h-[350px]" src={g2} alt="image" />
-
-          <Image className="w-[400px] h-[350px]" src={g4} alt="image" />
-          <Image className="w-[400px] h-[350px]" src={g6} alt="image" />
-
-          <Image className="w-[400px] h-[350px]" src={g5} alt="image" />
-
-          <Image className="w-[400px] h-[350px]" src={g9} alt="image" />
-          <Image className="w-[400px] h-[350px]" src={g7} alt="image" />
-          <Image className="w-[400px] h-[350px]" src={g8} alt="image" />
+          <div className="w-[400px] h-[350px] overflow-hidden">
+            <Image
+              className="w-full h-full object-cover object-center hover:scale-125 transition-transform duration-500 ease-in-out"
+              src={g3}
+              alt="image"
+            />
+          </div>
+          <div className="w-[400px] h-[350px] overflow-hidden">
+            <Image
+              className="w-full h-full object-cover object-center hover:scale-125 transition-transform duration-500 ease-in-out"
+              src={g1}
+              alt="image"
+            />
+          </div>
+          <div className="w-[400px] h-[350px] overflow-hidden">
+            <Image
+              className="w-full h-full object-cover object-center hover:scale-125 transition-transform duration-500 ease-in-out"
+              src={g2}
+              alt="image"
+            />
+          </div>
+          <div className="w-[400px] h-[350px] overflow-hidden">
+            <Image
+              className="w-full h-full object-cover object-center hover:scale-125 transition-transform duration-500 ease-in-out"
+              src={g4}
+              alt="image"
+            />
+          </div>
+          <div className="w-[400px] h-[350px] overflow-hidden">
+            <Image
+              className="w-full h-full object-cover object-center hover:scale-125 transition-transform duration-500 ease-in-out"
+              src={g6}
+              alt="image"
+            />
+          </div>
+          <div className="w-[400px] h-[350px] overflow-hidden">
+            <Image
+              className="w-full h-full object-cover object-center hover:scale-125 transition-transform duration-500 ease-in-out"
+              src={g5}
+              alt="image"
+            />
+          </div>
+          <div className="w-[400px] h-[350px] overflow-hidden">
+            <Image
+              className="w-full h-full object-cover object-center hover:scale-125 transition-transform duration-500 ease-in-out"
+              src={g9}
+              alt="image"
+            />
+          </div>
+          <div className="w-[400px] h-[350px] overflow-hidden">
+            <Image
+              className="w-full h-full object-cover object-center hover:scale-125 transition-transform duration-500 ease-in-out"
+              src={g7}
+              alt="image"
+            />
+          </div>
+          <div className="w-[400px] h-[350px] overflow-hidden">
+            <Image
+              className="w-full h-full object-cover object-center hover:scale-125 transition-transform duration-500 ease-in-out"
+              src={g8}
+              alt="image"
+            />
+          </div>
         </div>
       </div>
     </>
