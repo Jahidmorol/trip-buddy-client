@@ -61,25 +61,7 @@ const AllTripManagement = () => {
   return (
     <div className="w-full py-10">
       <div className="flex justify-between items-center pb-8">
-        <div className="flex items-center gap-4">
-          <Link
-            className={`${
-              pathname === "/admin/all-trip-management"
-                ? "bg-red-600 w-[100px] text-center py-1 hover:bg-red-700 transition-all"
-                : ""
-            }`}
-            href={"/admin/all-trip-management"}
-          >
-            <h1 className="text-xl font-semibold w-[100px] text-center">
-              All Trip
-            </h1>
-          </Link>
-          <Link href={"/admin/all-trip-request-management"}>
-            <h1 className="text-xl font-semibold hover:text-primaryColor transition-all">
-              All Trip Request
-            </h1>
-          </Link>
-        </div>
+        <h1 className="text-xl font-semibold transition-all">User All Trip</h1>
         <Link
           className="text-primaryColor underline text-lg hover:text-blue-600 transition-all"
           href={"/"}
@@ -100,7 +82,7 @@ const AllTripManagement = () => {
                   <TableHead>Trip Budget</TableHead>
                   <TableHead>Trip Start Date</TableHead>
                   <TableHead>Trip End Date</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead className="text-center">Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -115,10 +97,17 @@ const AllTripManagement = () => {
                     <TableCell>{trip?.startDate}</TableCell>
                     <TableCell>{trip?.endDate}</TableCell>
 
-                    <TableCell>
+                    <TableCell className="flex items-center gap-4">
+                      <Link href={`/admin/edit-user-trip/${trip?.id}`}>
+                        <p
+                          className={`bg-green-600 inline-flex justify-center items-center py-2 px-6 text-sm font-medium text-white  hover:bg-green-700 focus:outline-none transition-all`}
+                        >
+                          Edit
+                        </p>
+                      </Link>
                       <p
                         onClick={() => handleDeleteTrip(trip?.id)}
-                        className="text-center py-2 text-sm cursor-pointer hover:bg-red-700 bg-red-600 hover:text-white border text-white transition-all"
+                        className="text-center py-2 text-sm cursor-pointer hover:bg-red-700 bg-red-600 hover:text-white  text-white transition-all px-2"
                       >
                         Delete Trip
                       </p>
