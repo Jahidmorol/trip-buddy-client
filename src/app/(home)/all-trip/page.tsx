@@ -10,7 +10,6 @@ import React, { useEffect, useState } from "react";
 
 export type Trip = {
   id: string;
-  // Add other relevant fields here
 };
 
 const AllTripPage: React.FC = () => {
@@ -61,8 +60,8 @@ const AllTripPage: React.FC = () => {
   return (
     <div>
       <TripHeroSection />
-      <div className="container flex flex-col md:flex-row justify-between items-center">
-        <h1 className="text-2xl font-semibold py-6">All Trips</h1>
+      <div className="container flex flex-col md:flex-row justify-between items-center mt-14">
+        <h1 className="text-2xl font-semibold">All Trips</h1>
         <div className="flex items-center gap-3">
           <input
             type="text"

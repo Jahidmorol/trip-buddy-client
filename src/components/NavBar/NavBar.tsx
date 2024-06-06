@@ -23,10 +23,11 @@ export const deleteCookie = (name: string) => {
 const NavBar = () => {
   const [isSidebarMenuOpen, setIsSidebarMenuOpen] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const [update, setUpdate] = useState(false);
   const userContext = useContext(UserContext);
   const pathname = usePathname();
 
-  const { data, setRefetch, isLoading } = userContext || {
+  const { data, setRefetch } = userContext || {
     data: null,
     setRefetch: () => {},
     isLoading: false,
@@ -50,7 +51,7 @@ const NavBar = () => {
     } else {
       // router.push("/login");
     }
-  }, [router]);
+  }, [router, update]);
 
   const handleLogout = () => {
     deleteCookie("accessToken");
@@ -60,7 +61,9 @@ const NavBar = () => {
     if (userContext && userContext.setData) {
       userContext.setData({});
     }
-    router.refresh();
+    setUpdate(true);
+    setRefetch(true);
+    router.push("/");
   };
 
   return (
@@ -117,7 +120,7 @@ const NavBar = () => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <h1 className="border flex items-center justify-center transition-all hover:bg-[#EF4444] border-white rounded-full w-10 h-10 text-center uppercase text-lg">
-                    {data?.name?.charAt(0)}
+                    {data?.name?.charAt(0) || "p"}
                   </h1>
                 </TooltipTrigger>
                 <TooltipContent className="bg-black mt-2">

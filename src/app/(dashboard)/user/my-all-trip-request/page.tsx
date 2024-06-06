@@ -30,21 +30,21 @@ const TripManagement = () => {
 
   const pathname = usePathname();
 
-  const itemsPerPage = 3;
+  const itemsPerPage = 9;
 
   const queryParams = {
     limit: itemsPerPage,
     page: currentPage,
   };
+  console.log({ totalPages });
 
   useEffect(() => {
     setIsLoading(true);
     const getData = async () => {
       try {
         const data = await getAllTripRequest(queryParams);
-
-        setTotalPages(data?.data?.meta?.totalPages);
-
+        console.log({ data });
+        setTotalPages(Math.ceil(data?.data?.meta?.total / itemsPerPage));
         setAllDates(data?.data?.data);
         setIsLoading(false);
       } catch (error) {

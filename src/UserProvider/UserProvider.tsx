@@ -19,7 +19,7 @@ export const UserContext = createContext<{
 } | null>(null);
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [data, setData] = useState<any | null>(null);
+  const [data, setData] = useState<any | null>({});
   const [isLoading, setIsLoading] = useState(false);
   const [refetch, setRefetch] = useState(false);
 

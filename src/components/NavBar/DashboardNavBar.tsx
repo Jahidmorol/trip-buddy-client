@@ -24,7 +24,12 @@ const DashboardNavBar = () => {
   const handleLogout = () => {
     deleteCookie("accessToken");
     localStorage.removeItem("accessToken");
-    router.refresh();
+
+    if (userContext && userContext.setData) {
+      userContext.setData({});
+    }
+
+    router.push("/");
   };
 
   return (

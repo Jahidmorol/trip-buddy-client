@@ -34,12 +34,7 @@ const LoginComponent = () => {
     resolver: zodResolver(formSchema),
   });
   const userContext = useContext(UserContext);
-  const {
-    data,
-    setData,
-    setRefetch,
-    isLoading: loading,
-  } = userContext || {
+  const { setRefetch } = userContext || {
     data: null,
     setRefetch: () => {},
     isLoading: false,
@@ -69,7 +64,9 @@ const LoginComponent = () => {
           toast.success("login successfully!", { id: toastId });
           router.push("/");
           setIsLoading(false);
-          setRefetch(true);
+          setTimeout(() => {
+            setRefetch(true);
+          }, 6000);
         } else {
           toast.error(userInfo?.errorDetails?.error, { id: toastId });
           setIsLoading(false);

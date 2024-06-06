@@ -30,13 +30,14 @@ export const getAllMyTrips = async (queryParams: any) => {
   return data;
 };
 
-export const getAllMyTripsRequest = async () => {
+export const getAllMyTripsRequest = async (queryParams: any) => {
+  const params = new URLSearchParams(queryParams);
   if (!accessToken) {
     throw new Error("No authentication token found");
   }
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trip/request/user`,
+    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trip/request/user/?${params}`,
     {
       method: "GET",
       headers: {

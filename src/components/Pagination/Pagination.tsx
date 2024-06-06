@@ -37,9 +37,9 @@ const Pagination: React.FC<PaginationProps> = ({
           <span
             onClick={() => setCurrentPage(num + 1)}
             key={num}
-            className={`font-semibold py-2 px-5 border rounded-xl cursor-pointer flexcode-banner-bg ${
+            className={`font-semibold py-2 px-5 border rounded-xl cursor-pointer ${
               num + 1 === currentPage
-                ? "border-[#0fcda156]"
+                ? "!border-red-500"
                 : "border-slate-500 hover:border-[#0fcda156]"
             }`}
           >

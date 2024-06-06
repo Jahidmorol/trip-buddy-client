@@ -2,9 +2,9 @@
 
 import { createTripRequest, getSingleTrips } from "@/services/homeDataFetching";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-import { FaAnglesRight, FaCross, FaFlag } from "react-icons/fa6";
+import { FaAnglesRight, FaFlag } from "react-icons/fa6";
 import img1 from "/public/gallery/g1.jpg";
 import img2 from "/public/gallery/g2.jpg";
 import img3 from "/public/gallery/g6.jpg";
@@ -18,6 +18,7 @@ const SingleTripPage = () => {
   const [singleTrip, setSingleTrip] = useState<any>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const getData = async () => {
@@ -48,9 +49,9 @@ const SingleTripPage = () => {
 
     if (res.success) {
       toast.success("Trip request sent successfully!");
+      router.push("/user/request");
+      setIsDialogOpen(false);
     }
-
-    setIsDialogOpen(false);
   };
 
   useEffect(() => {
@@ -309,7 +310,7 @@ const SingleTripPage = () => {
                 className="bg-[#E8604C] text-white hover:bg-black transition-all font-semibold px-12 mt-8 text-lg py-2 rounded"
                 ref={closeButtonRef}
               >
-                Save changes
+                Send Trip Request
               </button>
             </form>
           </Dialog.Content>

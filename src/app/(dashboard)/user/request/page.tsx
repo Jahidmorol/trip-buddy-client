@@ -31,7 +31,7 @@ const MyTravelRequestPage = () => {
     const getData = async () => {
       try {
         setIsLoading(true);
-        const data = await getAllMyTripsRequest();
+        const data = await getAllMyTripsRequest(queryParams);
         setTotalPages(Math.ceil(data?.data?.meta?.total / itemsPerPage));
 
         setMyTripsRequest(data?.data?.data);
@@ -41,7 +41,7 @@ const MyTravelRequestPage = () => {
       }
     };
     getData();
-  }, []);
+  }, [currentPage]);
 
   return (
     <div className="w-full py-10">
@@ -98,7 +98,7 @@ const MyTravelRequestPage = () => {
                                 : trip?.status?.toUpperCase() === "REJECTED"
                                 ? "!bg-red-600 hover:!bg-red-700"
                                 : ""
-                            } w-fit px-4 py-1 cursor-pointer`}
+                            } w-24 px-4 py-1 cursor-pointer`}
                           >
                             {trip?.status}
                           </p>
