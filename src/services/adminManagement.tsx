@@ -114,12 +114,14 @@ export const deleteTrip = async (id: string) => {
   return user;
 };
 
-export const getAllTripRequest = async () => {
+export const getAllTripRequest = async (queryParams: any) => {
+  const params = new URLSearchParams(queryParams);
+
   if (!accessToken) {
     throw new Error("No authentication token found");
   }
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trip/request/all-travel-request`,
+    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trip/request/all-travel-request/?${params}`,
     {
       method: "GET",
       headers: {

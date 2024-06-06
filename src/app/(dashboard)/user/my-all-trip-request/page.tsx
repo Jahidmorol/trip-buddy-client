@@ -29,7 +29,8 @@ const TripManagement = () => {
   const [totalPages, setTotalPages] = useState<number>(1);
 
   const pathname = usePathname();
-  const itemsPerPage = 9;
+
+  const itemsPerPage = 3;
 
   const queryParams = {
     limit: itemsPerPage,
@@ -40,8 +41,10 @@ const TripManagement = () => {
     setIsLoading(true);
     const getData = async () => {
       try {
-        const data = await getAllTripRequest();
-        setTotalPages(Math.ceil(data?.data?.meta?.total / itemsPerPage));
+        const data = await getAllTripRequest(queryParams);
+
+        setTotalPages(data?.data?.meta?.totalPages);
+
         setAllDates(data?.data?.data);
         setIsLoading(false);
       } catch (error) {
@@ -50,7 +53,7 @@ const TripManagement = () => {
     };
     getData();
     setUpdate(false);
-  }, [update]);
+  }, [update, currentPage]);
 
   const handleChangeTripRequestStatus = async (
     tripId: string,
@@ -105,7 +108,8 @@ const TripManagement = () => {
                 <TableRow>
                   <TableHead>User Name</TableHead>
                   <TableHead>User Email</TableHead>
-                  <TableHead>Trip Title</TableHead>
+
+                  <TableHead>Trip Destination</TableHead>
                   <TableHead>Trip Budget</TableHead>
                   <TableHead>Trip Start Date</TableHead>
                   <TableHead>Trip End Date</TableHead>
@@ -115,12 +119,11 @@ const TripManagement = () => {
               <TableBody>
                 {allDates?.map((trip: any) => (
                   <TableRow key={trip?.id}>
-                    <TableCell className="font-medium w-[170px]">
-                      {trip?.user?.name}
-                    </TableCell>
+                    <TableCell>{trip?.user?.name}</TableCell>
                     <TableCell>{trip?.user?.email}</TableCell>
-                    <TableCell>{trip?.trip?.title}</TableCell>
-                    <TableCell>{trip?.trip?.budget}</TableCell>
+
+                    <TableCell>{trip?.trip?.destination}</TableCell>
+                    <TableCell>${trip?.trip?.budget}</TableCell>
                     <TableCell>{trip?.trip?.startDate}</TableCell>
                     <TableCell>{trip?.trip?.endDate}</TableCell>
 

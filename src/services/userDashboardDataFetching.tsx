@@ -4,13 +4,14 @@ import { cookies } from "next/headers";
 
 const accessToken = cookies().get("accessToken")?.value || "";
 
-export const getAllMyTrips = async () => {
+export const getAllMyTrips = async (queryParams: any) => {
+  const params = new URLSearchParams(queryParams);
   if (!accessToken) {
     throw new Error("No authentication token found");
   }
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/my-trips`,
+    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/my-trips/?${params}`,
     {
       method: "GET",
       headers: {

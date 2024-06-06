@@ -37,7 +37,7 @@ const MyALLTripPage = () => {
     const getData = async () => {
       try {
         setIsLoading(true);
-        const data = await getAllMyTrips();
+        const data = await getAllMyTrips(queryParams);
         setTotalPages(Math.ceil(data?.data?.meta?.total / itemsPerPage));
 
         setMyTrips(data?.data?.data);
@@ -47,7 +47,7 @@ const MyALLTripPage = () => {
       }
     };
     getData();
-  }, [update]);
+  }, [update, currentPage]);
 
   const handleDeleteTrip = async (tripId: string) => {
     const updateData = await deleteTrip(tripId);
@@ -99,6 +99,7 @@ const MyALLTripPage = () => {
                   <TableRow>
                     <TableHead>Trip Title</TableHead>
                     <TableHead>Trip Destination</TableHead>
+                    <TableHead>Trip Budget</TableHead>
                     <TableHead>Trip Start Date</TableHead>
                     <TableHead>Trip End Date</TableHead>
                     <TableHead className="text-center w-[160px]">
@@ -113,6 +114,7 @@ const MyALLTripPage = () => {
                         {trip?.title}
                       </TableCell>
                       <TableCell>{trip?.destination}</TableCell>
+                      <TableCell>${trip?.budget}</TableCell>
                       <TableCell>{trip?.startDate}</TableCell>
                       <TableCell>{trip?.endDate}</TableCell>
                       <TableCell className="flex items-center justify-center gap-4 ">
