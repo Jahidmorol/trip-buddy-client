@@ -60,24 +60,25 @@ const Footer = () => {
                 <ul className="leading-8">
                   <li>
                     <a href="#" className="hover:text-[#e8604c]">
-                      Getting Started With HTML and CSS
+                      Refund & Cancellations
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:text-[#e8604c]">
-                      What Is Flex And When to Use It?
+                      ESG Policy
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:text-[#e8604c]">
-                      How TailwindCSS Can Help Your Productivity?
+                      Payments?
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:text-[#e8604c]">
-                      5 Tips to Make Responsive Website
+                      Help & Support
                     </a>
                   </li>
+
                   <li>
                     <a href="#" className="hover:text-[#e8604c]">
                       See More
@@ -88,12 +89,12 @@ const Footer = () => {
               <div className="px-4 my-4 w-full sm:w-auto xl:w-1/5">
                 <div>
                   <h2 className="inline-block text-2xl pb-4 mb-4 border-b-4 border-[#e8604c]">
-                    Connect With Us
+                    Connect With Us.
                   </h2>
                 </div>
                 <a
                   href="#"
-                  className="inline-flex items-center justify-center h-8 w-8 border border-gray-100 rounded-full mr-1 hover:text-[#e8604c] hover:border-[#e8604c]"
+                  className="inline-flex items-center justify-center h-8 w-8 border border-gray-100 rounded-full mr-2 hover:text-[#e8604c] hover:border-[#e8604c]"
                 >
                   <svg
                     className="w-4 h-4 fill-current"
@@ -105,7 +106,7 @@ const Footer = () => {
                 </a>
                 <a
                   href="#"
-                  className="inline-flex items-center justify-center h-8 w-8 border border-gray-100 rounded-full mr-1 hover:text-[#e8604c] hover:border-[#e8604c]"
+                  className="inline-flex items-center justify-center h-8 w-8 border border-gray-100 rounded-full mr-2 hover:text-[#e8604c] hover:border-[#e8604c]"
                 >
                   <svg
                     className="w-4 h-4 fill-current"
@@ -117,7 +118,7 @@ const Footer = () => {
                 </a>
                 <a
                   href="#"
-                  className="inline-flex items-center justify-center h-8 w-8 border border-gray-100 rounded-full mr-1 hover:text-[#e8604c] hover:border-[#e8604c]"
+                  className="inline-flex items-center justify-center h-8 w-8 border border-gray-100 rounded-full mr-2 hover:text-[#e8604c] hover:border-[#e8604c]"
                 >
                   <svg
                     className="w-4 h-4 fill-current"
@@ -129,7 +130,7 @@ const Footer = () => {
                 </a>
                 <a
                   href="#"
-                  className="inline-flex items-center justify-center h-8 w-8 border border-gray-100 rounded-full mr-1 hover:text-[#e8604c] hover:border-[#e8604c]"
+                  className="inline-flex items-center justify-center h-8 w-8 border border-gray-100 rounded-full mr-2 hover:text-[#e8604c] hover:border-[#e8604c]"
                 >
                   <svg
                     className="w-4 h-4 fill-current"

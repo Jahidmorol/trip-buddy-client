@@ -1,7 +1,8 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,14 +17,14 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { UserContext } from "@/UserProvider/UserProvider";
+import { getMyDetails } from "@/services/homeDataFetching";
 
 const formSchema = z.object({
   email: z.string().min(2, {
     message: "email must be at least 2 characters.",
   }),
-
   password: z.string().min(2, {
-    message: "email must be at least 2 characters.",
+    message: "Password must be at least 2 characters.",
   }),
 });
 
@@ -48,7 +49,7 @@ const LoginComponent = () => {
     values: z.infer<typeof formSchema>
   ): Promise<void> => {
     setIsLoading(true);
-    const toastId = toast.loading("login...");
+    const toastId = toast.loading("Logging in...");
 
     try {
       const { userInfo } = await userLogin(values);
@@ -57,12 +58,16 @@ const LoginComponent = () => {
         const token = userInfo.data.accessToken;
 
         setAccessTokenCookie(token);
-
         localStorage.setItem("accessToken", token);
 
         if (userInfo?.success) {
-          toast.success("login successfully!", { id: toastId });
-          router.push("/");
+          const data = await getMyDetails(token);
+          if (userContext) {
+            userContext.setData(data?.data);
+            toast.success("Login successful!", { id: toastId });
+            router.push("/");
+          }
+
           setIsLoading(false);
           setTimeout(() => {
             setRefetch(true);
@@ -132,4 +137,5 @@ const LoginComponent = () => {
     </div>
   );
 };
+
 export default LoginComponent;

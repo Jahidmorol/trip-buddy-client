@@ -29,7 +29,12 @@ const AboutSection = () => {
         <div className="absolute inset-0 bg-aboutSection opacity-50 bg-cover bg-center"></div>
         <div className="relative z-10 container py-28">
           <p className="flex items-center gap-2 text-gray-300">
-            Home <FaAnglesRight />
+            <Link
+              className="flex items-center hover:underline gap-1"
+              href={"/"}
+            >
+              Home <FaAnglesRight />
+            </Link>
             About Us
           </p>
           <h1 className="text-4xl font-bold md:leading-[70px]">
@@ -99,10 +104,7 @@ const AboutSection = () => {
           Why Travel with TripBuddy?
         </h1>
         <div className="flex flex-col md:flex-row py-16 gap-4">
-          <div
-            className="border p-4 border-[#e8604c]"
-            style={{ transition: "box-shadow 0.3s ease" }}
-          >
+          <div className="border p-4 border-[#e8604c] hover:border-gray-400 transition-all duration-300">
             <Image className="mx-auto" src={icon1} alt="image" />
             <h2 className="text-center text-2xl font-semibold py-2">
               Best Price Granted
@@ -113,7 +115,7 @@ const AboutSection = () => {
             </p>
           </div>
 
-          <div className="border p-4 border-[#e8604c] ">
+          <div className="border p-4 border-[#e8604c] hover:border-gray-400 transition-all duration-300">
             <Image className="mx-auto" src={icon2} alt="image" />
             <h2 className="text-center pb-2 text-2xl font-semibold py-2">
               Best Travel Guide
@@ -123,7 +125,7 @@ const AboutSection = () => {
               eiusmod incididunt.
             </p>
           </div>
-          <div className="border p-4 border-[#e8604c] ">
+          <div className="border p-4 border-[#e8604c] hover:border-gray-400 transition-all duration-300">
             <Image className="mx-auto" src={icon3} alt="image" />
             <h2 className="text-center text-2xl font-semibold py-2">
               Customer Care 24/7

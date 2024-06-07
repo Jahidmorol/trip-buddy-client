@@ -14,7 +14,7 @@ import {
 export const UserContext = createContext<{
   data: any | null;
   setRefetch: Dispatch<SetStateAction<boolean>>;
-  setData: Dispatch<SetStateAction<any | undefined>>;
+  setData: any;
   isLoading: boolean;
 } | null>(null);
 
@@ -28,7 +28,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
   const fetchUser = async () => {
     setIsLoading(true);
     try {
-      const data = await getMyDetails();
+      const data = await getMyDetails(accessToken as string);
       setData(data?.data);
       setIsLoading(false);
     } catch (error) {

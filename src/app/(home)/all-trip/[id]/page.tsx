@@ -12,20 +12,27 @@ import img4 from "/public/gallery/g4.jpg";
 import * as Dialog from "@radix-ui/react-dialog";
 import { toast } from "sonner";
 import { ImCross } from "react-icons/im";
+import LoadingComponent from "@/components/Loading/Loading";
+import Link from "next/link";
 
 const SingleTripPage = () => {
   const { id } = useParams();
   const [singleTrip, setSingleTrip] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
 
   useEffect(() => {
     const getData = async () => {
+      setIsLoading(true);
       try {
         const data = await getSingleTrips(id as string);
         setSingleTrip(data?.data);
-      } catch (error) {}
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
     };
     getData();
   }, [id]);
@@ -66,7 +73,12 @@ const SingleTripPage = () => {
         <div className="absolute inset-0 bg-singlePageSection opacity-75 bg-cover bg-top "></div>
         <div className="relative z-10 py-36 container">
           <p className="flex items-center gap-2 text-gray-300">
-            All Trip <FaAnglesRight />
+            <Link
+              className="flex items-center hover:underline gap-1"
+              href={"/all-trip"}
+            >
+              All Trip <FaAnglesRight />
+            </Link>
             Trip Details
           </p>
           <h1 className="text-4xl font-bold md:leading-[70px]">
@@ -121,60 +133,84 @@ const SingleTripPage = () => {
         </button>
       </div>
 
-      <div className="container">
-        <h2 className="sm:text-3xl font-semibold text-lg mb-5">Tour Details</h2>
-        <h2 className="font-semibold text-lg">Trip Name Or Destination</h2>
-        <p className="pt-2 text-lg flex items-center gap-1">
-          Trip Name is{" "}
-          <mark className="px-2 bg-red-500 text-white">
-            {singleTrip?.title}
-          </mark>{" "}
-          and Destination{" "}
-          <mark className="px-2 bg-red-500 text-white flex items-center gap-2 w-fit">
-            {singleTrip?.destination} <FaFlag />
-          </mark>
-        </p>
-
-        <div className="space-y-6 mt-8">
-          <p className="font-semibold text-lg">About This Experience</p>
-          <p>{singleTrip?.description}</p>
-
-          <p className="font-semibold text-lg">Our Activities!</p>
-
-          <div className="flex gap-20">
+      {isLoading ? (
+        <LoadingComponent />
+      ) : (
+        <div className="container">
+          <div className="flex justify-between group">
             <div>
-              <p className="font-semibold text-lg pb-1">Activities: </p>
-              <div className="pl-6">
-                {singleTrip?.activities?.map((a: string, i: string) => (
-                  <li key={i}>{a}</li>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p className="font-semibold text-lg">Trip Start Or End Date: </p>
-              <ul className="text-lg py-4">
-                <li>Start Date: {singleTrip?.startDate}</li>
-                <li>End Date: {singleTrip?.endDate}</li>
+              <h2 className="sm:text-3xl font-semibold text-lg mb-5">
+                Tour Details
+              </h2>
+              <h2 className="font-semibold text-lg">
+                Trip Name Or Destination
+              </h2>
+              <p className="pt-2 text-lg flex items-center gap-1">
+                Trip Name is{" "}
+                <mark className="px-2 bg-red-500 text-white">
+                  {singleTrip?.title}
+                </mark>{" "}
+                and Destination{" "}
+                <mark className="px-2 bg-red-500 text-white flex items-center gap-2 w-fit">
+                  {singleTrip?.destination} <FaFlag />
+                </mark>
+              </p>
+
+              <ul className="text-lg py-4 flex gap-5">
+                <li>
+                  <span className="border-b border-red-400">Start Date</span> :{" "}
+                  {singleTrip?.startDate}
+                </li>
+                <li>
+                  <span className="border-b border-red-400">End Date</span> :{" "}
+                  {singleTrip?.endDate}
+                </li>
               </ul>
             </div>
+            <div className="h-[230px] w-[450px] overflow-hidden rounded-2xl">
+              <Image
+                className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform group-hover:scale-125"
+                src={singleTrip?.image}
+                width={200}
+                height={200}
+                alt="image"
+              />
+            </div>
           </div>
+          <div className="space-y-6">
+            <p className="font-semibold text-lg">About This Experience</p>
+            <p>{singleTrip?.description}</p>
 
-          <p className="font-semibold text-lg mb-4">
-            Tour Type: {singleTrip?.tripType}
-          </p>
+            <p className="font-semibold text-lg">Our Activities!</p>
 
-          <div>
-            <p className="font-semibold text-lg mb-4">What we will do?</p>
-            <p className="text-sm">
-              MAKE SURE TO BOOK WELL IN ADVANCE. <br />
-              Once you’ve arrived at the Jump Zone, let the experience begin!
+            <div className="flex gap-20">
+              <div>
+                <p className="font-semibold text-lg pb-1">Activities: </p>
+                <div className="pl-6">
+                  {singleTrip?.activities?.map((a: string, i: string) => (
+                    <li key={i}>{a}</li>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <p className="font-semibold text-lg mb-4">
+              Tour Type: {singleTrip?.tripType}
             </p>
+
+            <div>
+              <p className="font-semibold text-lg mb-4">What we will do?</p>
+              <p className="text-sm">
+                MAKE SURE TO BOOK WELL IN ADVANCE. <br />
+                Once you’ve arrived at the Jump Zone, let the experience begin!
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      )}
       <button
         onClick={() => setIsDialogOpen(true)}
-        className="bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out hover:bg-transparent duration-300 block mx-auto w-fit mb-9"
+        className="bg-[#E8604C] text-white text-sm mt-10 px-8 py-3 border transition-all ease-in-out hover:bg-transparent duration-300 block mx-auto w-fit mb-9"
       >
         Book Now Trip
       </button>

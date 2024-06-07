@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 
 const HomeHeroSection = () => {
   return (
-    <div className="relative">
+    <div className="relative group">
       <div className="absolute inset-0 bg-heroSection bg-center bg-cover opacity-50"></div>
       <div className="relative z-10 container flex items-center justify-center py-12 h-[70vh]">
         <div>
