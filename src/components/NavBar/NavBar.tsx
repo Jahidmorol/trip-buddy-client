@@ -68,9 +68,12 @@ const NavBar = () => {
 
   return (
     <div className="container flex justify-between items-center py-6">
-      <Link href="/">
-        <h1 className="text-3xl font-extrabold text-primaryColor cursor-pointer">
-          Trip<span className="text-white">Buddy</span>
+      <Link className="group duration-300 transition-all" href="/">
+        <h1 className="text-3xl duration-300 transition-all font-extrabold text-primaryColor cursor-pointer group-hover:text-white">
+          Trip
+          <span className="text-white group-hover:text-primaryColor duration-300 transition-all ">
+            Buddy
+          </span>
         </h1>
       </Link>
       <div className="md:flex items-center justify-between w-[58%] hidden">
@@ -131,7 +134,7 @@ const NavBar = () => {
             </TooltipProvider>
             <Button
               onClick={handleLogout}
-              className="border"
+              className="border hover:border-red-400 hover:text-primaryColor duration-300 transition-all"
               variant={"outline"}
             >
               Log Out
@@ -139,7 +142,10 @@ const NavBar = () => {
           </div>
         ) : (
           <Link href={"/login"}>
-            <Button className="border" variant={"outline"}>
+            <Button
+              className="border hover:border-red-400 hover:text-primaryColor duration-300 transition-all"
+              variant={"outline"}
+            >
               Sign In / Register
             </Button>
           </Link>

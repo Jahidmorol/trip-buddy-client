@@ -5,7 +5,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 const SingleCard = ({ card }: any) => {
   return (
-    <div className="w-[400px] group bg-white/95 text-black hover:bg-transparent border border-black hover:border-white h-[480px] relative duration-300 ease-in-out transform transition-all">
+    <div className="w-[400px] group bg-white/95 text-black hover:bg-transparent border border-black/55 hover:border-red-400 h-[480px] relative duration-300 ease-in-out transform transition-all">
       <div className="h-[230px] overflow-hidden">
         <Image
           className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform group-hover:scale-110"
@@ -38,7 +38,7 @@ const SingleCard = ({ card }: any) => {
         <div className="absolute bottom-5 w-[92%]">
           <Link href={`/all-trip/${card?.id}`}>
             <button
-              className={`text-[#e44d36] hover:tracking-[2.5px] border border-[#e44d36] group-hover:bg-[#ffffff] py-2 px-20 text-lg font-semibold transition-all duration-300 w-full flex items-center justify-center gap-2`}
+              className={`text-[#e44d36] hover:tracking-[2.5px] border border-[#e44d36] group-hover:border-black group-hover:bg-white/95 py-2 px-20 text-lg font-semibold transition-all duration-300 w-full flex items-center justify-center gap-2`}
             >
               Explore Now <FaArrowRightLong className="mt-1" />
             </button>

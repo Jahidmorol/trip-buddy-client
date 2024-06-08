@@ -3,24 +3,50 @@
 import { createTripRequest, getSingleTrips } from "@/services/homeDataFetching";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaAnglesRight, FaFlag } from "react-icons/fa6";
 import img1 from "/public/gallery/g1.jpg";
 import img2 from "/public/gallery/g2.jpg";
 import img3 from "/public/gallery/g6.jpg";
 import img4 from "/public/gallery/g4.jpg";
+
 import * as Dialog from "@radix-ui/react-dialog";
 import { toast } from "sonner";
 import { ImCross } from "react-icons/im";
 import LoadingComponent from "@/components/Loading/Loading";
 import Link from "next/link";
+import { UserContext } from "@/UserProvider/UserProvider";
+import { getFromLocalStorage } from "@/utils/local-storage";
 
 const SingleTripPage = () => {
   const { id } = useParams();
   const [singleTrip, setSingleTrip] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const userContext = useContext(UserContext);
+
+  const { data } = userContext || {
+    data: null,
+    setRefetch: () => {},
+    isLoading: false,
+  };
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
+
+  const handleBookNowClick = () => {
+    const savedToken = getFromLocalStorage("accessToken");
+    if (!savedToken) {
+      toast.warning("Need login first!");
+      router.push("/login");
+    } else {
+      setIsDialogOpen(true);
+    }
+  };
+
   const router = useRouter();
 
   useEffect(() => {
@@ -56,16 +82,10 @@ const SingleTripPage = () => {
 
     if (res.success) {
       toast.success("Trip request sent successfully!");
-      router.push("/user/request");
       setIsDialogOpen(false);
+      router.push("/user/request");
     }
   };
-
-  useEffect(() => {
-    if (isDialogOpen && closeButtonRef.current) {
-      closeButtonRef.current.focus();
-    }
-  }, [isDialogOpen]);
 
   return (
     <div>
@@ -126,10 +146,15 @@ const SingleTripPage = () => {
           Host Details
         </p>
         <button
-          onClick={() => setIsDialogOpen(true)}
-          className="bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out hover:bg-transparent duration-300 group-hover:!bg-transparent"
+          onClick={handleBookNowClick}
+          disabled={isLoading}
+          className={`bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out duration-300 group-hover:border-red-400 group-hover:text-primaryColor ${
+            isLoading
+              ? "cursor-not-allowed bg-gray-700 group-hover:!bg-transparent"
+              : "hover:bg-transparent group-hover:!bg-transparent"
+          }`}
         >
-          Book Now Trip
+          {isLoading ? "Trip Loading..." : "Book Now Trip"}
         </button>
       </div>
 
@@ -164,6 +189,10 @@ const SingleTripPage = () => {
                 <li>
                   <span className="border-b border-red-400">End Date</span> :{" "}
                   {singleTrip?.endDate}
+                </li>
+                <li>
+                  <span className="border-b border-red-400">Trip Budget</span> :{" "}
+                  ${singleTrip?.budget}
                 </li>
               </ul>
             </div>
@@ -208,14 +237,21 @@ const SingleTripPage = () => {
           </div>
         </div>
       )}
-      <button
-        onClick={() => setIsDialogOpen(true)}
-        className="bg-[#E8604C] text-white text-sm mt-10 px-8 py-3 border transition-all ease-in-out hover:bg-transparent duration-300 block mx-auto w-fit mb-9"
-      >
-        Book Now Trip
-      </button>
+      <div className="flex items-center justify-center mb-14">
+        <button
+          onClick={handleBookNowClick}
+          disabled={isLoading}
+          className={`bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out duration-300 hover:border-red-400 hover:text-primaryColor ${
+            isLoading
+              ? "cursor-not-allowed bg-gray-700 hover:!bg-transparent "
+              : "hover:bg-transparent hover:border-red-400 hover:text-primaryColor"
+          }`}
+        >
+          {isLoading ? "Trip Loading..." : "Book Now Trip"}
+        </button>
+      </div>
 
-      <div className="my-16 bg-gray-700 p-14">
+      <div className="my-16 bg-gray-900 p-14">
         <div className="container">
           <h2 className="sm:text-3xl font-semibold text-lg mb-6">
             Briefing: Understand the buggy and safety procedure
@@ -257,13 +293,20 @@ const SingleTripPage = () => {
         </div>
       </div>
 
-      <div>
-        <button
-          className="bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out hover:bg-transparent duration-300 block mx-auto w-fit mb-9"
-          onClick={() => setIsDialogOpen(true)}
-        >
-          Book Now Trip
-        </button>
+      <div className="w-full">
+        <div className="flex items-center justify-center mb-14">
+          <button
+            onClick={handleBookNowClick}
+            disabled={isLoading}
+            className={`bg-[#E8604C] text-white text-sm px-8 py-3 border transition-all ease-in-out duration-300 ${
+              isLoading
+                ? "cursor-not-allowed bg-gray-700 hover:!bg-transparent hover:border-red-400 hover:text-primaryColor"
+                : "hover:bg-transparent hover:border-red-400 hover:text-primaryColor "
+            }`}
+          >
+            {isLoading ? "Trip Loading..." : "Book Now Trip"}
+          </button>
+        </div>
 
         <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <Dialog.Trigger asChild>
@@ -272,7 +315,7 @@ const SingleTripPage = () => {
             </button>
           </Dialog.Trigger>
           <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-70" />
-          <Dialog.Content className="fixed z-50 top-2/4 left-2/4 max-h-[85vh] w-[90vw] max-w-lg -translate-x-2/4 -translate-y-2/4 transform rounded-lg bg-white p-6 focus:outline-none">
+          <Dialog.Content className="fixed z-50 top-2/4 left-2/4 w-[90vw] max-w-3xl -translate-x-2/4 -translate-y-2/4 transform rounded-lg bg-white p-6 focus:outline-none">
             <div className="flex items-center justify-between">
               <Dialog.Title className="text-2xl text-black font-bold">
                 Trip Request
@@ -288,25 +331,61 @@ const SingleTripPage = () => {
               I travel so my life isn’t disrupted by routine.
             </Dialog.Description>
             <form onSubmit={handleSubmit}>
-              <div className="flex flex-col gap-1">
-                <label htmlFor="name" className="text-black">
-                  Trip Name
-                </label>
-                <input
-                  className="block w-full rounded-xl text-black border-2 border-gray-400 p-3 shadow-sm placeholder:font-semibold placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:font-semibold focus:ring-1 focus:ring-[#e44d36] sm:text-sm"
-                  type="text"
-                  name="name"
-                  autoComplete="off"
-                  id="name"
-                  value={singleTrip?.title}
-                />
+              <div className="flex justify-between items-center gap-4">
+                <div className="flex flex-col gap-1 w-full">
+                  <label className="text-black">Your Name</label>
+                  <input
+                    className="block w-full rounded-xl text-black border border-gray-400 p-3 shadow-sm placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:ring-[#e44d36] sm:text-sm"
+                    type="text"
+                    name="name"
+                    autoComplete="off"
+                    id="name"
+                    value={data?.name}
+                  />
+                </div>
+                <div className="flex flex-col gap-1 w-full">
+                  <label className="text-black">Your Email</label>
+                  <input
+                    className="block w-full rounded-xl text-black border border-gray-400 p-3 shadow-sm placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:ring-[#e44d36] sm:text-sm"
+                    type="text"
+                    name="name"
+                    autoComplete="off"
+                    id="name"
+                    value={data?.email}
+                  />
+                </div>
               </div>
-              <div className="flex flex-col gap-1 mt-4">
+              <div className="flex justify-between items-center gap-4 py-3">
+                <div className="flex flex-col gap-1 w-full">
+                  <label className="text-black">Trip Name</label>
+                  <input
+                    className="block w-full rounded-xl text-black border border-gray-400 p-3 shadow-sm placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:ring-[#e44d36] sm:text-sm"
+                    type="text"
+                    name="name"
+                    autoComplete="off"
+                    id="name"
+                    value={singleTrip?.title}
+                  />
+                </div>
+                <div className="flex flex-col gap-1 w-full">
+                  <label className="text-black">Trip Budget</label>
+                  <input
+                    className="block w-full rounded-xl text-black border border-gray-400 p-3 shadow-sm placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:ring-[#e44d36] sm:text-sm"
+                    type="text"
+                    name="name"
+                    autoComplete="off"
+                    id="name"
+                    value={`$${singleTrip?.budget}`}
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1">
                 <label htmlFor="destination" className="text-black">
                   Trip Destination
                 </label>
                 <input
-                  className="block w-full rounded-xl text-black border-2 border-gray-400 p-3 shadow-sm placeholder:font-semibold placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:font-semibold focus:ring-1 focus:ring-[#e44d36] sm:text-sm"
+                  className="block w-full rounded-xl text-black border border-gray-400 p-3 shadow-sm placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:ring-[#e44d36] sm:text-sm"
                   type="destination"
                   name="destination"
                   id="destination"
@@ -314,37 +393,59 @@ const SingleTripPage = () => {
                   value={singleTrip?.destination}
                 />
               </div>
-              <div className="flex flex-col gap-1 mt-4">
-                <label htmlFor="startDate" className="text-black">
-                  Trip Start Date
-                </label>
-                <input
-                  className="block w-full rounded-xl text-black border-2 border-gray-400 p-3 shadow-sm placeholder:font-semibold placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:font-semibold focus:ring-1 focus:ring-[#e44d36] sm:text-sm"
-                  type="text"
-                  name="startDate"
-                  id="startDate"
-                  autoComplete="off"
-                  value={singleTrip?.startDate}
-                />
+              <div className="flex justify-between items-center gap-4 py-3">
+                <div className="flex flex-col gap-1 w-full">
+                  <label htmlFor="startDate" className="text-black">
+                    Trip Start Date
+                  </label>
+                  <input
+                    className="block w-full rounded-xl text-black border border-gray-400 p-3 shadow-sm placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:ring-[#e44d36] sm:text-sm"
+                    type="text"
+                    name="startDate"
+                    id="startDate"
+                    autoComplete="off"
+                    value={singleTrip?.startDate}
+                  />
+                </div>
+                <div className="flex flex-col gap-1 w-full">
+                  <label htmlFor="endDate" className="text-black">
+                    Trip End Date
+                  </label>
+                  <input
+                    className="block w-full rounded-xl text-black border border-gray-400 p-3 shadow-sm placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:ring-[#e44d36] sm:text-sm"
+                    type="text"
+                    name="endDate"
+                    id="endDate"
+                    autoComplete="off"
+                    value={singleTrip?.endDate}
+                  />
+                </div>
               </div>
-              <div className="flex flex-col gap-1 mt-4">
-                <label htmlFor="endDate" className="text-black">
-                  Trip End Date
-                </label>
+
+              <div className="flex items-center space-x-2 text-black mt-2">
                 <input
-                  className="block w-full rounded-xl text-black border-2 border-gray-400 p-3 shadow-sm placeholder:font-semibold placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:font-semibold focus:ring-1 focus:ring-[#e44d36] sm:text-sm"
-                  type="text"
-                  name="endDate"
-                  id="endDate"
-                  autoComplete="off"
-                  value={singleTrip?.endDate}
+                  className="size-5"
+                  type="checkbox"
+                  id="myCheckbox"
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
                 />
+                <label
+                  htmlFor="myCheckbox"
+                  className="ml-2 hover:underline cursor-pointer"
+                >
+                  Accept terms and conditions
+                </label>
               </div>
 
               <button
+                disabled={!isChecked}
                 type="submit"
-                className="bg-[#E8604C] text-white hover:bg-black transition-all font-semibold px-12 mt-8 text-lg py-2 rounded"
-                ref={closeButtonRef}
+                className={`mt-5 px-12 py-2 text-lg font-semibold rounded transition-all duration-300 ${
+                  isChecked
+                    ? "bg-[#E8604C] text-white hover:bg-black"
+                    : "bg-gray-300 text-gray-700 cursor-not-allowed"
+                }`}
               >
                 Send Trip Request
               </button>

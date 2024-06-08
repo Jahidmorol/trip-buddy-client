@@ -67,7 +67,7 @@ const AllTripPage: React.FC = () => {
             type="text"
             autoComplete="off"
             placeholder="Search..."
-            className="block w-[180px] border border-gray-400 bg-gray-100 px-3 py-2 shadow-sm placeholder:font-semibold placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor focus:font-semibold focus:ring-1 focus:ring-[#e44d36] sm:text-sm"
+            className="block w-[200px] border border-gray-400 bg-gray-100 px-3 py-2 shadow-sm placeholder:font-semibold placeholder:text-black/60 focus:border-[#e44d36] focus:outline-none focus:!text-primaryColor placeholder:text-primaryColor focus:font-semibold focus:ring-1 focus:ring-[#e44d36] sm:text-sm"
             style={{ color: "black" }}
             value={searchQuery}
             onChange={handleSearchChange}

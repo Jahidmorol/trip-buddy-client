@@ -61,6 +61,10 @@ export const getMyDetails = async (token: string) => {
 };
 
 export const createTripRequest = async (id: string) => {
+  if (!accessToken) {
+    throw new Error("No authentication token found");
+  }
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/trip/request/${id}`,
     {

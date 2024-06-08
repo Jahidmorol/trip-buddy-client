@@ -9,9 +9,12 @@ const Footer = () => {
           <div className="container px-4 mx-auto">
             <div className="-mx-4 flex flex-wrap justify-between">
               <div className="px-4 my-4 w-full xl:w-1/5">
-                <Link href="/">
-                  <h1 className="text-3xl font-extrabold text-primaryColor cursor-pointer pb-2">
-                    Trip<span className="text-white"> Buddy</span>
+                <Link className="group duration-300 transition-all" href="/">
+                  <h1 className="text-3xl duration-300 transition-all font-extrabold text-primaryColor cursor-pointer group-hover:text-white">
+                    Trip
+                    <span className="text-white group-hover:text-primaryColor duration-300 transition-all ">
+                      Buddy
+                    </span>
                   </h1>
                 </Link>
                 <p className="text-justify">
