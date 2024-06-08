@@ -105,7 +105,7 @@ const UserProfile = () => {
         email: values.email,
       };
 
-      await updateUserDetails(userData);
+      const res = await updateUserDetails(userData);
 
       toast.success("Your information updated successfully", { id: toastId });
       setRefetch(true);

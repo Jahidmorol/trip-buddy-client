@@ -21,6 +21,7 @@ const AdminDashboard = () => {
     const getData = async () => {
       try {
         const data = await getDashboardData();
+
         setData(data?.data);
         setIsLoading(false);
       } catch (error) {
