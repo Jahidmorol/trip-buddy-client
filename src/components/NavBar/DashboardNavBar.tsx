@@ -34,9 +34,12 @@ const DashboardNavBar = () => {
 
   return (
     <div className="container flex justify-between items-center pt-5 pb-4 !px-0 border-b border-[#9e483a]">
-      <Link href="/">
-        <h1 className="text-3xl font-extrabold text-primaryColor cursor-pointer">
-          Trip<span className="text-white">Buddy</span>
+      <Link className="group duration-300 transition-all" href="/">
+        <h1 className="text-3xl duration-300 transition-all font-extrabold text-primaryColor cursor-pointer group-hover:text-white">
+          Trip
+          <span className="text-white group-hover:text-primaryColor duration-300 transition-all ">
+            Buddy
+          </span>
         </h1>
       </Link>
       <div className="md:flex items-center justify-between w-[82%] hidden">
@@ -62,7 +65,11 @@ const DashboardNavBar = () => {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <Button onClick={handleLogout} className="border" variant={"outline"}>
+          <Button
+            onClick={handleLogout}
+            className="w-28 border border-primaryColor h-auto hover:border-white !rounded-[8px] font-medium duration-300 transition-all hover:tracking-[1.5px] py-[8px] text-lg"
+            variant={"outline"}
+          >
             Log Out
           </Button>
         </div>

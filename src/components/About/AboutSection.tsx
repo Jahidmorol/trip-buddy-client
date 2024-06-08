@@ -88,7 +88,7 @@ const AboutSection = () => {
           </p>
           <Link href={"/all-trip"}>
             <Button
-              className="border hover:border-red-400 hover:text-primaryColor w-64 font-semibold tracking-wide py-6 text-lg mt-8"
+              className="w-64 border border-primaryColor mt-10 h-auto hover:border-white !rounded-[8px] font-medium duration-300 transition-all hover:tracking-[1.5px] py-[8px] text-lg"
               variant={"outline"}
             >
               Find more trip

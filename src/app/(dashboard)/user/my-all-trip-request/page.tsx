@@ -102,101 +102,109 @@ const TripManagement = () => {
         <LoadingComponent />
       ) : (
         <>
-          <div className="border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>User Name</TableHead>
-                  <TableHead>User Email</TableHead>
+          {allDates.length === 0 ? (
+            <h1 className="text-4xl font-bold text-center">
+              You have not any trip request
+            </h1>
+          ) : (
+            <>
+              <div className="border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>User Name</TableHead>
+                      <TableHead>User Email</TableHead>
 
-                  <TableHead>Trip Destination</TableHead>
-                  <TableHead>Trip Budget</TableHead>
-                  <TableHead>Trip Start Date</TableHead>
-                  <TableHead>Trip End Date</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {allDates?.map((trip: any) => (
-                  <TableRow key={trip?.id}>
-                    <TableCell>{trip?.user?.name}</TableCell>
-                    <TableCell>{trip?.user?.email}</TableCell>
+                      <TableHead>Trip Destination</TableHead>
+                      <TableHead>Trip Budget</TableHead>
+                      <TableHead>Trip Start Date</TableHead>
+                      <TableHead>Trip End Date</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {allDates?.map((trip: any) => (
+                      <TableRow key={trip?.id}>
+                        <TableCell>{trip?.user?.name}</TableCell>
+                        <TableCell>{trip?.user?.email}</TableCell>
 
-                    <TableCell>{trip?.trip?.destination}</TableCell>
-                    <TableCell>${trip?.trip?.budget}</TableCell>
-                    <TableCell>{trip?.trip?.startDate}</TableCell>
-                    <TableCell>{trip?.trip?.endDate}</TableCell>
+                        <TableCell>{trip?.trip?.destination}</TableCell>
+                        <TableCell>${trip?.trip?.budget}</TableCell>
+                        <TableCell>{trip?.trip?.startDate}</TableCell>
+                        <TableCell>{trip?.trip?.endDate}</TableCell>
 
-                    <TableCell>
-                      <div className="relative inline-block text-left">
-                        <div className="group">
-                          <button
-                            type="button"
-                            className={`${
-                              trip?.status?.toUpperCase() === "APPROVED"
-                                ? "!bg-green-600"
-                                : trip?.status?.toUpperCase() === "PENDING"
-                                ? "!bg-blue-600"
-                                : trip?.status?.toUpperCase() === "REJECTED"
-                                ? "!bg-red-600"
-                                : ""
-                            } inline-flex justify-center items-center w-24 px-4 py-2 text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:bg-gray-700`}
-                          >
-                            {trip?.status}
-                          </button>
-
-                          <div className="absolute z-50 w-24 origin-top-left bg-white divide-gray-100 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
-                            <div>
-                              <p
-                                onClick={() =>
-                                  handleChangeTripRequestStatus(
-                                    trip?.id,
-                                    "APPROVED"
-                                  )
-                                }
-                                className="block px-4 py-2 text-sm cursor-pointer text-gray-700 hover:bg-[#e44d36] hover:text-white"
+                        <TableCell>
+                          <div className="relative inline-block text-left">
+                            <div className="group">
+                              <button
+                                type="button"
+                                className={`${
+                                  trip?.status?.toUpperCase() === "APPROVED"
+                                    ? "!bg-green-600"
+                                    : trip?.status?.toUpperCase() === "PENDING"
+                                    ? "!bg-blue-600"
+                                    : trip?.status?.toUpperCase() === "REJECTED"
+                                    ? "!bg-red-600"
+                                    : ""
+                                } inline-flex justify-center items-center w-24 px-4 py-2 text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:bg-gray-700`}
                               >
-                                APPROVED
-                              </p>
-                              <p
-                                onClick={() =>
-                                  handleChangeTripRequestStatus(
-                                    trip?.id,
-                                    "PENDING"
-                                  )
-                                }
-                                className="block px-4 py-2 text-sm cursor-pointer text-gray-700 hover:bg-[#e44d36] hover:text-white"
-                              >
-                                PENDING
-                              </p>
-                              <p
-                                onClick={() =>
-                                  handleChangeTripRequestStatus(
-                                    trip?.id,
-                                    "REJECTED"
-                                  )
-                                }
-                                className="block px-4 py-2 text-sm cursor-pointer text-gray-700 hover:bg-[#e44d36] hover:text-white"
-                              >
-                                REJECTED
-                              </p>
+                                {trip?.status}
+                              </button>
+
+                              <div className="absolute z-50 w-24 origin-top-left bg-white divide-gray-100 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
+                                <div>
+                                  <p
+                                    onClick={() =>
+                                      handleChangeTripRequestStatus(
+                                        trip?.id,
+                                        "APPROVED"
+                                      )
+                                    }
+                                    className="block px-4 py-2 text-sm cursor-pointer text-gray-700 hover:bg-[#e44d36] hover:text-white"
+                                  >
+                                    APPROVED
+                                  </p>
+                                  <p
+                                    onClick={() =>
+                                      handleChangeTripRequestStatus(
+                                        trip?.id,
+                                        "PENDING"
+                                      )
+                                    }
+                                    className="block px-4 py-2 text-sm cursor-pointer text-gray-700 hover:bg-[#e44d36] hover:text-white"
+                                  >
+                                    PENDING
+                                  </p>
+                                  <p
+                                    onClick={() =>
+                                      handleChangeTripRequestStatus(
+                                        trip?.id,
+                                        "REJECTED"
+                                      )
+                                    }
+                                    className="block px-4 py-2 text-sm cursor-pointer text-gray-700 hover:bg-[#e44d36] hover:text-white"
+                                  >
+                                    REJECTED
+                                  </p>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-          <div className="flex justify-center items-center pb-16">
-            <Pagination
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPage={totalPages}
-            />
-          </div>{" "}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+              <div className="flex justify-center items-center pb-16">
+                <Pagination
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  totalPage={totalPages}
+                />
+              </div>{" "}
+            </>
+          )}
         </>
       )}
     </div>

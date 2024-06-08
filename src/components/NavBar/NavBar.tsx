@@ -134,16 +134,23 @@ const NavBar = () => {
             </TooltipProvider>
             <Button
               onClick={handleLogout}
-              className="border hover:border-red-400 hover:text-primaryColor duration-300 transition-all"
+              className="w-28 border border-primaryColor h-auto hover:border-white !rounded-[8px] font-medium duration-300 transition-all hover:tracking-[1.5px] py-[8px] text-lg"
               variant={"outline"}
             >
               Log Out
             </Button>
+            {/* <Button
+              onClick={handleLogout}
+              className="border hover:border-red-400 hover:text-primaryColor duration-300 transition-all"
+              variant={"outline"}
+            >
+              Log Out
+            </Button> */}
           </div>
         ) : (
           <Link href={"/login"}>
             <Button
-              className="border hover:border-red-400 hover:text-primaryColor duration-300 transition-all"
+              className="w-48 border border-primaryColor h-auto hover:border-white !rounded-[8px] font-medium duration-300 transition-all hover:tracking-[1px] py-[8px] text-lg"
               variant={"outline"}
             >
               Sign In / Register

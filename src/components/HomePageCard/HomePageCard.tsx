@@ -65,10 +65,10 @@ const HomePageCard = () => {
           ))}
         </div>
       )}
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center mt-16">
         <Link href={"/all-trip"}>
           <Button
-            className="border w-60 font-semibold tracking-wide text-lg my-16 hover:border-red-400 hover:text-primaryColor"
+            className="w-60 border border-primaryColor h-auto hover:border-white !rounded-[8px] font-medium duration-300 transition-all hover:tracking-[1.5px] py-[8px] text-lg"
             variant={"outline"}
           >
             More

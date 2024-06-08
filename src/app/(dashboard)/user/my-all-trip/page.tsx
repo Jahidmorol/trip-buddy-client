@@ -93,60 +93,62 @@ const MyALLTripPage = () => {
               You have not post yet
             </h1>
           ) : (
-            <div className="border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Trip Title</TableHead>
-                    <TableHead>Trip Destination</TableHead>
-                    <TableHead>Trip Budget</TableHead>
-                    <TableHead>Trip Start Date</TableHead>
-                    <TableHead>Trip End Date</TableHead>
-                    <TableHead className="text-center w-[160px]">
-                      Action
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {allMyTrips?.map((trip: any) => (
-                    <TableRow key={trip?.id}>
-                      <TableCell className="font-medium w-[170px]">
-                        {trip?.title}
-                      </TableCell>
-                      <TableCell>{trip?.destination}</TableCell>
-                      <TableCell>${trip?.budget}</TableCell>
-                      <TableCell>{trip?.startDate}</TableCell>
-                      <TableCell>{trip?.endDate}</TableCell>
-                      <TableCell className="flex items-center justify-center gap-4 ">
-                        <Link href={`/user/edit-my-trip/${trip?.id}`}>
-                          <button
-                            type="button"
-                            className={`bg-green-600 inline-flex justify-center items-center w-16 py-2 text-sm font-medium text-white  hover:bg-green-700 focus:outline-none`}
-                          >
-                            Edit
-                          </button>
-                        </Link>
-
-                        <button
-                          onClick={() => handleDeleteTrip(trip?.id)}
-                          className={`inline-flex justify-center items-center w-16 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none `}
-                        >
-                          Delete
-                        </button>
-                      </TableCell>
+            <>
+              <div className="border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Trip Title</TableHead>
+                      <TableHead>Trip Destination</TableHead>
+                      <TableHead>Trip Budget</TableHead>
+                      <TableHead>Trip Start Date</TableHead>
+                      <TableHead>Trip End Date</TableHead>
+                      <TableHead className="text-center w-[160px]">
+                        Action
+                      </TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+                  </TableHeader>
+                  <TableBody>
+                    {allMyTrips?.map((trip: any) => (
+                      <TableRow key={trip?.id}>
+                        <TableCell className="font-medium w-[170px]">
+                          {trip?.title}
+                        </TableCell>
+                        <TableCell>{trip?.destination}</TableCell>
+                        <TableCell>${trip?.budget}</TableCell>
+                        <TableCell>{trip?.startDate}</TableCell>
+                        <TableCell>{trip?.endDate}</TableCell>
+                        <TableCell className="flex items-center justify-center gap-4 ">
+                          <Link href={`/user/edit-my-trip/${trip?.id}`}>
+                            <button
+                              type="button"
+                              className={`bg-green-600 inline-flex justify-center items-center w-16 py-2 text-sm font-medium text-white  hover:bg-green-700 focus:outline-none`}
+                            >
+                              Edit
+                            </button>
+                          </Link>
+
+                          <button
+                            onClick={() => handleDeleteTrip(trip?.id)}
+                            className={`inline-flex justify-center items-center w-16 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none `}
+                          >
+                            Delete
+                          </button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+              <div className="flex justify-center items-center pb-16">
+                <Pagination
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  totalPage={totalPages}
+                />
+              </div>
+            </>
           )}
-          <div className="flex justify-center items-center pb-16">
-            <Pagination
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPage={totalPages}
-            />
-          </div>
         </>
       )}
     </div>
