@@ -166,7 +166,7 @@ const Footer = () => {
                 Copyright © 2024 Trip Buddy. All Rights Reserved.
               </div>
               <div className="px-4 w-full text-center sm:w-auto sm:text-left">
-                Made with ❤️ by Mehedi Hasan Foysal.
+                Made with ❤️ by Jahid Hasan Zarif.
               </div>
             </div>
           </div>
